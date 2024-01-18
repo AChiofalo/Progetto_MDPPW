@@ -2,7 +2,7 @@ CREATE TABLE user (
     "id" INTEGER NOT NULL UNIQUE,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-
+    "role" TEXT NOT NULL,
     PRIMARY KEY ("id")
 );
 
