@@ -1,0 +1,20 @@
+{
+  "name": "progetto_achiofalo",
+  "version": "1.0.0",
+  "description": "Codice lato Server e lato Client di una piattaforma per e-commerce",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon index",
+    "start2": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alessandro Chiofalo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "morgan": "^1.10.0",
+    "node": "^21.2.0",
+    "sqlite3": "^5.1.7-rc.0"
+  }
+}
