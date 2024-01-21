@@ -10,9 +10,9 @@ class Sanitizer{
     constructor(){}
 
     /**
-     * Restituisce il nome via upperCase e rimuove tutti gli spazi bianchi
+     * Restituisce nome in upperCase e rimuove tutti gli spazi bianchi
      * @param {String} name 
-     * @returns name in base a casing
+     * @returns name in upperCase
      */
     sanitizeName(name) {
         const res = name.toUpperCase();;
@@ -29,6 +29,24 @@ class Sanitizer{
         const res = price;
         res = res.replace(/\./, '');
         return res-0;
+    }
+
+    /**
+     * Restituisce email in upperCase
+     * @param {String} email 
+     * @returns email in upperCase
+     */
+    sanitizeEmail(email) {
+        return email.toUpperCase();;
+    }
+
+    /**
+     * Restituisce role in upperCase
+     * @param {String} role 
+     * @returns role in upperCase
+     */
+    sanitizeRole(role) {
+            return role.toUpperCase();;
     }
 
 
