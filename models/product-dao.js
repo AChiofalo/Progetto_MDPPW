@@ -2,6 +2,17 @@
 
 const db = require('../db.js');
 
+/*  
+    prodotto (
+    "name" TEXT NOT NULL UNIQUE,
+    "vendor_username" INTEGER NOT NULL, 
+    "description" TEXT NOT NULL,
+    "img" TEXT NOT NULL,
+    "quantity_available" INTEGER NOT NULL, 
+    "price" INTEGER NOT NULL
+    )
+*/
+
 //CREATE
 exports.createProduct = async function(product){
     return new Promise((resolve, reject) => {
@@ -26,17 +37,10 @@ exports.createProduct = async function(product){
 
 
 //READ
+
 /**
- * 
-*   "name" TEXT NOT NULL UNIQUE,
-    "vendor_username" INTEGER NOT NULL, 
-    "description" TEXT NOT NULL,
-    "img" TEXT NOT NULL,
-    "quantity_available" INTEGER NOT NULL, 
-    "price" INTEGER NOT NULL,
- * 
- * @param {*} name 
- * @returns 
+ * @param {String} name 
+ * @returns Array oggetti Product o errore
  */
 exports.searchProductsByName = async function(name) {
     return new Promise((resolve, reject) => {  
@@ -60,6 +64,10 @@ exports.searchProductsByName = async function(name) {
       });
 };
 
+/**
+ * @param {String} name 
+ * @returns Oggetto Product o errore
+ */
 exports.getProductByName = async function(name) {
     return new Promise((resolve, reject) => {  
       const sql = 'SELECT name, vendor_username, description, img, quantity_available, price FROM product WHERE name LIKE ?'; //% wildcard per SQL

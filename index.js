@@ -10,7 +10,8 @@ const sessions = require('express-session'); //Sessioni
 
 const path = require('path');
 
-const userDao = require('./models/user-dao');  //Data Access Object per utenti
+const userDao = require('./models/customer-dao'); //Data Access Object per utenti
+const productDao = require('./models/product-dao'); 
 const normalizer = new Normalizer();  //Normalizzatore
 
 const app = express();
@@ -20,6 +21,7 @@ app.listen(port, () => {`Listening on localhost:${port}`});
 //QUI VANNO MIDDLEWARE
 app.use(logger('short'));
 app.use(express.static('public'));
+app.use(express.json());
 //
 
 
