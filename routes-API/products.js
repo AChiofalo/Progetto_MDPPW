@@ -1,5 +1,5 @@
 'use strict';
-import Normalizer from '../normalize/normalizer.js';
+const Normalizer = require('../normalize/normalizer.js');
 
 const dao = require('../models/product-dao.js');
 const express = require('express');
@@ -14,3 +14,4 @@ router.get('/api/products/:id', normalizer.normalizeProduct, (req,res) => {
     .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
   });
   
+module.exports = router;

@@ -2,7 +2,7 @@
 
 const db = require('../db.js');
 
-/*  
+/*   
     prodotto (
     "name" TEXT NOT NULL UNIQUE,
     "vendor_username" INTEGER NOT NULL, 

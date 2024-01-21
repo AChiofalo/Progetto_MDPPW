@@ -1,6 +1,7 @@
 "use strict";
 
-import Normalizer from './normalize/normalizer';
+
+const Normalizer = require('./normalize/normalizer.js');
 
 const logger = require('morgan');   //Logger
 const express = require('express'); //Server

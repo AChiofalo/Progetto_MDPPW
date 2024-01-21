@@ -1,5 +1,5 @@
 'use strict';
-import Normalizer from '../normalize/normalizer.js';
+const Normalizer = require('../normalize/normalizer.js');
 
 const dao = require('../models/customer-dao.js');
 const express = require('express');
@@ -26,3 +26,5 @@ router.post('/api/customers', normalizer.normalizeUser, normalizer.normalizeCust
       .then((result) => res.status(201).header('Location', `/customers/${result}`).end())
       .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
     });
+
+module.exports = router;

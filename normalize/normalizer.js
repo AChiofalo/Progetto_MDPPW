@@ -1,9 +1,10 @@
 "use strict";
 
-import Validator from "./validator";
-import Sanitizer from "./sanitizer";
+const Validator = require('./validator.js');
+const Sanitizer = require('./sanitizer.js');
 
-class Normalizer{
+
+class Normalizer{   
     constructor(){
         this.validator = new Validator();
         this.sanitizer = new Sanitizer();
@@ -75,4 +76,4 @@ class Normalizer{
     }
 }
 
-export default Normalizer
+module.exports = Normalizer;

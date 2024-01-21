@@ -1,6 +1,7 @@
 "use strict";
 
 
+
 /**
  * Imposta le regole di sanificazione dei tipi astratti di dati,
  * sanifica i valori passati
@@ -52,4 +53,4 @@ class Sanitizer{
 
 }
 
-export default Sanitizer;
+module.exports = Sanitizer;
