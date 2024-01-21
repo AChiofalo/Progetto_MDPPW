@@ -64,28 +64,25 @@ exports.getUser = function(email, password) {
  * @param vendor {    
       "username": req.body.username,
       "password": req.body.password,
-      "location": req.body.location,
       "description": req.body.description,
       "img": "none",
       "wallet": 0
  * @returns 
  */
 exports.createVendor = async function(vendor) {
-  return new Promise((resolve, reject) => {
-    const sqlVendor = 'INSERT INTO vendor(username, password) VALUES (?, ?)'
+  return new Promise( async (resolve, reject) => {
+    const sql = 'INSERT INTO vendor(username, password, description, img, wallet) VALUES (?, ?, ?, ?, ?)';
+    const hash = await bcrypt.hash(vendor.password, 10);
+    db.run(sql, [vendor.username, hash, vendor.description, vendor.img, vendor.wallet], function(err) {
+        if (err) 
+          reject(err);
+        else 
+          resolve(vendor.username);
+      });
+    })
+  }; 
+
+
     
-    createUser(vendor.user).then((id) => {
-
-    }
 
 
-
-    );
-
-
-    
-
-
-  })
-
-}
