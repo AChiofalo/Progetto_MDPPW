@@ -18,37 +18,26 @@ const app = express();
 const port = 3001;  //To change
 app.listen(port, () => {`Listening on localhost:${port}`});
 
+const productsRouter = require('./routes-API/products');
+const vendorsRouter = require('./routes-API/vendors');
+const sessionsRouter = require('./routes-API/sessions');
+
+
 //QUI VANNO MIDDLEWARE
 app.use(logger('short'));
 app.use(express.static('public'));
 app.use(express.json());
-//
-
-
-
+//ROUTES API
+app.use('/api/sessions', sessionsRouter);
+app.use('/api/vendors', isLoggedIn, vendorsRouter);
+app.use('/api/products', isLoggedIn, productsRouter);
+//-------
+//ROUTES BASE
 app.get('*', (req,res)=> {     
     res.sendFile(path.resolve(__dirname,'public', 'index.html'));
 });
 
-app.post('/api/vendors', normalizer.normalizeUser, normalizer.normalizeVendor ,(req, res) => {
-    const user = {
-        "username": req.body.username,
-        "password": req.body.password,
-        "role": 'VENDOR'
-    };
-    const vendor = {
-      "user": user,
-      "name": req.body.name,
-      "location": req.body.location,
-      "description": "",
-      "img": "none",
-      "wallet": 0
-    }
-  
-    userDao.createVendor(vendor)
-    .then((result) => res.status(201).header('Location', `/vendors/${result}`).end())
-    .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
-  });
+
 
 app.post('/api/customers', normalizer.normalizeUser, normalizer.normalizeCustomer,(req, res) => {
 // create a customer object from the signup form
@@ -77,18 +66,6 @@ app.get('/api/products/:id', normalizer.normalizeProduct, (req,res) => {
   .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
 });
 
-app.get('/api/vendors/:id', normalizer.normalizeVendor, (req,res) => {
-    
-  dao.getVendor(req.params.id)
-  .then((result) => res.status(201).json(result).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
-});
 
-app.get('/api/vendors', normalizer.normalizeVendor ,(req,res) => {
-    
-  dao.getVendors(req.params.id)
-  .then((result) => res.status(201).json(result).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
-});
 
  

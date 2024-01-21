@@ -16,7 +16,7 @@ const bcrypt = require('bcrypt');
 
 /**
  * 
- * @param
+ * @param {Vendor} vendor
  * @returns Username del vendor o errore
  */
 exports.createVendor = async function(vendor) {

@@ -14,6 +14,10 @@ const db = require('../db.js');
 */
 
 //CREATE
+/**
+ * @param {Product} product 
+ * @returns Nome product o errore
+ */
 exports.createProduct = async function(product){
     return new Promise((resolve, reject) => {
       const sql = 'INSERT INTO product (name, vendor_username, description, img, quantity_available, price) VALUES (?,?,?,?,?,?)';
@@ -33,7 +37,6 @@ exports.createProduct = async function(product){
             });
       })
 };
-
 
 
 //READ
