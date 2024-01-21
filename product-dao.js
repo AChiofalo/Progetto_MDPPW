@@ -15,8 +15,8 @@ const db = require('./db.js');
  * @param {*} name 
  * @returns 
  */
-exports.searchProducts = async function(name) {
-    return new Promise( async (resolve, reject) => {  
+exports.searchProductsByName = async function(name) {
+    return new Promise((resolve, reject) => {  
       const sql = 'SELECT name, vendor_username, description, img, quantity_available, price FROM product WHERE name LIKE ?%'; //% wildcard per SQL
       db.all(sql, [name], function(err, rows) {
           if (err) 
@@ -35,4 +35,25 @@ exports.searchProducts = async function(name) {
             resolve(products); 
           }});
       });
-  };
+};
+
+exports.getProduct = async function(name) {
+    return new Promise((resolve, reject) => {  
+      const sql = 'SELECT name, vendor_username, description, img, quantity_available, price FROM product WHERE name LIKE ?'; //% wildcard per SQL
+      db.get(sql, [name], function(err, row) {
+          if (err) 
+            reject(err);
+          else {
+            const product = 
+            { 
+              "name":row.username,
+              "vendor_username":row.vendor_username,
+              "description":row.description, 
+              "img":row.img,
+              "quantity_available":row.quantity_available,
+              "price":row.price,
+            } 
+            resolve(product); 
+          }});
+      });
+};
