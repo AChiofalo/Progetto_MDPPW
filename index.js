@@ -48,31 +48,35 @@ app.post('/api/vendors', /* [add here some validity checks], */ (req, res) => {
   });
 
 app.post('/api/customers', /* [add here some validity checks], */ (req, res) => {
-// create a user object from the signup form
-// additional fields may be useful (name, role, etc.)
+// create a customer object from the signup form
   const user = {
     "email": req.body.email,
     "password": req.body.password,
     "role": 'customer'
   };
-const customer = {
+  const customer = {
   "user": user,
   "first_name": req.body.first_name,
   "last_name": req.body.last_name,
   "location": req.body.location,
   "wallet": 0
-}
+  }
   
-    userDao.createCustomer(customer)
-    .then((result) => res.status(201).header('Location', `/customers/${result}`).end())
-    .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
-  });
+  userDao.createCustomer(customer)
+  .then((result) => res.status(201).header('Location', `/customers/${result}`).end())
+  .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
+});
 
 app.get('/api/products/:id', (req,res) => {
     
   dao.getProduct(req.params.id)
   .then((result) => res.status(201).json(result).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during ritrieve'}));
-} 
-      
-)
+  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
+});
+
+app.get('/api/vendors/:id', (req,res) => {
+    
+  dao.getVendor(req.params.id)
+  .then((result) => res.status(201).json(result).end())
+  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
+});
