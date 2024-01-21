@@ -1,8 +1,8 @@
 'use strict';
 import Normalizer from '../normalize/normalizer.js';
 
-const dao = require('../models/customer-dao.js');
-const dao = require('../models/vendor-dao.js');
+const daoCustomer = require('../models/customer-dao.js');
+const daoVendor = require('../models/vendor-dao.js');
 const express = require('express');
 const router = express.Router();
 
