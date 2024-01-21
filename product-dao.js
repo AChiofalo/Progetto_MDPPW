@@ -2,7 +2,30 @@
 
 const db = require('./db.js');
 
+//CREATE
+exports.createProduct = async function(product){
+    return new Promise((resolve, reject) => {
+      const sql = 'INSERT INTO product (name, vendor_username, description, img, quantity_available, price) VALUES (?,?,?,?,?,?)';
+        db.run(sql, 
+            [product.name,
+            product.vendor_username,
+            product.description,
+            product.img,
+            product.quantity_available,
+            product.price,
+            ],function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(product.name);
+                }
+            });
+      })
+};
 
+
+
+//READ
 /**
  * 
 *   "name" TEXT NOT NULL UNIQUE,
@@ -37,7 +60,7 @@ exports.searchProductsByName = async function(name) {
       });
 };
 
-exports.getProduct = async function(name) {
+exports.getProductByName = async function(name) {
     return new Promise((resolve, reject) => {  
       const sql = 'SELECT name, vendor_username, description, img, quantity_available, price FROM product WHERE name LIKE ?'; //% wildcard per SQL
       db.get(sql, [name], function(err, row) {
@@ -58,23 +81,11 @@ exports.getProduct = async function(name) {
       });
 };
 
-exports.createProduct = async function(product){
-    return new Promise((resolve, reject) => {
-      const sql = 'INSERT INTO product (name, vendor_username, description, img, quantity_available, price) VALUES (?,?,?,?,?,?)';
-        db.run(sql, 
-            [product.name,
-            product.vendor_username,
-            product.description,
-            product.img,
-            product.quantity_available,
-            product.price,
-            ],function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(product.name);
-                }
-            });
-      })
-};
+//UPDATE
+
+
+
+
+//DELETE
+
 
