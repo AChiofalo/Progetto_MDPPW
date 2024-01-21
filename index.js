@@ -80,3 +80,14 @@ app.get('/api/vendors/:id', (req,res) => {
   .then((result) => res.status(201).json(result).end())
   .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
 });
+
+
+
+app.get('/api/vendors', normalizeVendor ,(req,res) => {
+    
+  dao.getVendors(req.params.id)
+  .then((result) => res.status(201).json(result).end())
+  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
+});
+
+ 
