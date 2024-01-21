@@ -13,8 +13,6 @@ class Normalizer{
         try {
             this.validator.validateEmail(req.body.username);
             req.body.username = this.sanitizer.sanitizeEmail(req.body.username)
-            req.body.role = this.sanitizer.sanitizeRole(req.body.role) //Sanifica prima di validare
-            this.validator.validateRole(req.body.role);
 
             return next();
 
@@ -31,6 +29,8 @@ class Normalizer{
 
             req.body.name = this.sanitizer.sanitizePrice(req.body.name);
             req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
+
+            return next();
 
         } catch(err){
             res.status(400).json({"statusCode" : 400, "message" : err});
@@ -50,6 +50,8 @@ class Normalizer{
             req.body.last_name = this.sanitizer.sanitizeName(req.body.last_name);
             req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
+            return next();
+
         } catch(err){
             res.status(400).json({"statusCode" : 400, "message" : err});
         }
@@ -65,10 +67,12 @@ class Normalizer{
             req.body.name = this.sanitizer.sanitizeName(req.body.name);
             req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
+            return next();
+
         } catch(err){
             res.status(400).json({"statusCode" : 400, "message" : err});
         }
     }
-
-
 }
+
+export default Normalizer
