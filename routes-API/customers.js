@@ -7,7 +7,7 @@ const router = express.Router();
 
 const normalizer = new Normalizer();  //Normalizzatore
 
-app.post('/api/customers', normalizer.normalizeUser, normalizer.normalizeCustomer,(req, res) => {
+router.post('/api/customers', normalizer.normalizeUser, normalizer.normalizeCustomer,(req, res) => {
     // create a customer object from the signup form
       const user = {
         "username": req.body.username,
