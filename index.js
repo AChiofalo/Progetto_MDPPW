@@ -10,7 +10,7 @@ const sessions = require('express-session'); //Sessioni
 
 const path = require('path');
 
-const userDao = require('./user-dao');  //Data Access Object per utenti
+const userDao = require('./models/user-dao');  //Data Access Object per utenti
 const normalizer = new Normalizer();  //Normalizzatore
 
 const app = express();
