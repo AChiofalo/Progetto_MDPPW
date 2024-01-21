@@ -29,11 +29,11 @@ app.get('*', (req,res)=> {
 });
 
 app.post('/api/vendors', normalizer.normalizeUser, normalizer.normalizeVendor ,(req, res) => {
-      const user = {
+    const user = {
         "username": req.body.username,
         "password": req.body.password,
         "role": 'VENDOR'
-      };
+    };
     const vendor = {
       "user": user,
       "name": req.body.name,
