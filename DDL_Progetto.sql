@@ -1,11 +1,10 @@
 CREATE TABLE vendor (
     "username" TEXT NOT NULL UNIQUE,
     "password" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "img" TEXT NOT NULL,
     "wallet" INTEGER NOT NULL,
-    PRIMARY KEY ("username"),
+    PRIMARY KEY ("username")
 );
 
 CREATE TABLE customer (
@@ -13,18 +12,14 @@ CREATE TABLE customer (
     "password" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
     "wallet" INTEGER NOT NULL,
-    PRIMARY KEY ("username"),
+    PRIMARY KEY ("username")
 ); 
 
 CREATE TABLE product (
     "name" TEXT NOT NULL UNIQUE,
     "vendor_username" INTEGER NOT NULL, 
     "description" TEXT NOT NULL,
-    "keywords" TEXT NOT NULL,
-    "origin" TEXT NOT NULL,
-    "color" TEXT NOT NULL,
     "img" TEXT NOT NULL,
     "quantity_available" INTEGER NOT NULL, 
     "price" INTEGER NOT NULL,

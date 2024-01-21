@@ -61,24 +61,18 @@ exports.getUser = function(email, password) {
 
 /**
  * 
- * @param {    const user = {
-        "username": req.body.username,
-        "password": req.body.password,
-        "role": 'VENDOR'
-    };
-    const vendor = {
-      "user": user,
-      "name": req.body.name,
+ * @param vendor {    
+      "username": req.body.username,
+      "password": req.body.password,
       "location": req.body.location,
-      "description": "",
+      "description": req.body.description,
       "img": "none",
       "wallet": 0
-    }} vendor 
  * @returns 
  */
 exports.createVendor = async function(vendor) {
   return new Promise((resolve, reject) => {
-    const sqlVendor = 'INSERT INTO vendor(email, password) VALUES (?, ?)'
+    const sqlVendor = 'INSERT INTO vendor(username, password) VALUES (?, ?)'
     
     createUser(vendor.user).then((id) => {
 
