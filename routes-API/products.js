@@ -7,7 +7,7 @@ const router = express.Router();
 
 const normalizer = new Normalizer();  //Normalizzatore
 
-router.get('/api/products/:id', normalizer.normalizeProduct, (req,res) => {
+router.get('/:id', normalizer.normalizeProduct, (req,res) => {
     
     dao.getProduct(req.params.id)
     .then((result) => res.status(201).json(result).end())

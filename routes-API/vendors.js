@@ -9,20 +9,20 @@ const normalizer = new Normalizer();  //Normalizzatore
 
 
 
-router.get('/api/vendors/:id', normalizer.normalizeVendor, (req,res) => {
+router.get('/:id', normalizer.normalizeVendor, (req,res) => {
   dao.getVendor(req.params.id)
   .then((result) => res.status(201).json(result).end())
   .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
 });
 
-router.get('/api/vendors', normalizer.normalizeVendor ,(req,res) => {
+router.get('/', normalizer.normalizeVendor ,(req,res) => {
     
   dao.getVendors(req.params.id)
   .then((result) => res.status(201).json(result).end())
   .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
 });
 
-router.post('/api/vendors', normalizer.normalizeUser, normalizer.normalizeVendor ,(req, res) => {
+router.post('/', normalizer.normalizeUser, normalizer.normalizeVendor ,(req, res) => {
   const user = {
       "username": req.body.username,
       "password": req.body.password,
