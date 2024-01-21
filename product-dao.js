@@ -57,3 +57,23 @@ exports.getProduct = async function(name) {
           }});
       });
 };
+
+exports.createProduct = async function(product){
+    return new Promise((resolve, reject) => {
+      const sql = 'INSERT INTO product (name, vendor_username, description, img, quantity_available, price) VALUES (?,?,?,?,?,?)';
+        db.run(sql, 
+            [product.name,
+            product.vendor_username,
+            product.description,
+            product.img,
+            product.quantity_available,
+            product.price,
+            ],function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(product.name);
+                }
+            });
+      })
+};

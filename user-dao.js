@@ -13,7 +13,7 @@ exports.createUser = function(user) {
           reject(err);
         } else {
           resolve(
-            
+            user.username
           );
         }
       });
@@ -101,11 +101,3 @@ exports.searchVendorsByUsername = async function(username) {
         }});
     });
 };
-
-
-
-
-
-    
-
-
