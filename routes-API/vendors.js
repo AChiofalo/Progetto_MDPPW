@@ -22,22 +22,17 @@ router.get('/', normalizer.normalizeVendor ,(req,res) => {
   .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
 });
 
-router.post('/', normalizer.normalizeUser, normalizer.normalizeVendor ,(req, res) => {
-  const user = {
-      "username": req.body.username,
-      "password": req.body.password,
-      "role": 'VENDOR'
-  };
+router.post('/', normalizer.normalizeVendor ,(req, res) => {
+   
   const vendor = {
-    "user": user,
-    "name": req.body.name,
-    "location": req.body.location,
+    "username": req.body.username,
+    "password": req.body.password,
     "description": "",
     "img": "none",
     "wallet": 0
   }
 
-  userDao.createVendor(vendor)
+  dao.createVendor(vendor)
   .then((result) => res.status(201).header('Location', `/vendors/${result}`).end())
   .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
 });

@@ -25,14 +25,14 @@ class Normalizer{
 
     normalizeVendor(req, res, next){
         try {
-            this.validator.validateName(req.body.name);
-            this.validator.validatePrice(req.body.wallet);
+            this.validator.validateName(req.body.username);
+            //this.validator.validatePrice(req.body.wallet);
 
-            req.body.name = this.sanitizer.sanitizePrice(req.body.name);
-            req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
+            req.body.username = this.sanitizer.sanitizePrice(req.body.username);
+            //req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
             return next();
-
+            
         } catch(err){
             res.status(400).json({"statusCode" : 400, "message" : err});
         }
