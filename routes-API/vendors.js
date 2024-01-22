@@ -1,7 +1,7 @@
 'use strict';
 const Normalizer = require('../normalize/normalizer.js');
 
-const dao = require('../models/customer-dao.js');
+const dao = require('../models/vendor-dao.js');
 const express = require('express');
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.post('/', normalizer.normalizeVendor ,(req, res) => {
 
   dao.createVendor(vendor)
   .then((result) => res.status(201).header('Location', `/vendors/${result}`).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during the signup'}));
+  .catch((err) => res.status(503).json({error: err}));
 });
 
 
