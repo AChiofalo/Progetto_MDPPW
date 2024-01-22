@@ -10,18 +10,7 @@ class Normalizer{
         this.sanitizer = new Sanitizer();
     }
 
-    normalizeUser = (req, res, next) => {
-        try {
-            this.validator.validateEmail(req.body.username);
-            req.body.username = this.sanitizer.sanitizeEmail(req.body.username)
 
-            return next();
-
-        } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err});
-        }
-
-    }
 
     normalizeVendor = (req, res, next) => {
         try {
@@ -74,6 +63,20 @@ class Normalizer{
             res.status(400).json({"statusCode" : 400, "message" : err});
         }
     }
+
+        /*normalizeUser = (req, res, next) => {
+        try {
+            this.validator.validateEmail(req.body.username);
+            req.body.username = this.sanitizer.sanitizeEmail(req.body.username)
+
+            return next();
+
+        } catch(err){
+            res.status(400).json({"statusCode" : 400, "message" : err});
+        }
+
+    }*/
+
 }
 
 module.exports = Normalizer;
