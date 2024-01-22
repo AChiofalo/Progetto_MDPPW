@@ -15,8 +15,8 @@ class Sanitizer{
      * @param {String} name 
      * @returns name in upperCase
      */
-    sanitizeName(name) {
-        const res = name.toUpperCase();;
+    sanitizeName = (name) => {
+        let res = name.toUpperCase();;
         res = res.replace(/\s/g, ''); //Rimpiazza tutti gli spazi bianchi col secondo parametro, g indica globalmente
         return res;
     }
@@ -26,8 +26,8 @@ class Sanitizer{
      * @param {String} price 
      * @returns {Number} price come numero intero: ultime due cifre sono in centesimi
      */
-    sanitizePrice(price) {
-        const res = price;
+    sanitizePrice = (price) => {
+        let res = price;
         res = res.replace(/\./, '');
         return res-0;
     }
@@ -37,7 +37,7 @@ class Sanitizer{
      * @param {String} email 
      * @returns email in upperCase
      */
-    sanitizeEmail(email) {
+    sanitizeEmail = (email) => {
         return email.toUpperCase();;
     }
 
@@ -46,8 +46,8 @@ class Sanitizer{
      * @param {String} role 
      * @returns role in upperCase
      */
-    sanitizeRole(role) {
-            return role.toUpperCase();;
+    sanitizeRole = (role) => {
+        return role.toUpperCase();;
     }
 
 

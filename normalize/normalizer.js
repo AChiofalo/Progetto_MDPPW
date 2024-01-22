@@ -10,7 +10,7 @@ class Normalizer{
         this.sanitizer = new Sanitizer();
     }
 
-    normalizeUser(req, res, next){
+    normalizeUser = (req, res, next) => {
         try {
             this.validator.validateEmail(req.body.username);
             req.body.username = this.sanitizer.sanitizeEmail(req.body.username)
@@ -23,7 +23,7 @@ class Normalizer{
 
     }
 
-    normalizeVendor(req, res, next){
+    normalizeVendor = (req, res, next) => {
         try {
             this.validator.validateName(req.body.username);
             //this.validator.validatePrice(req.body.wallet);
@@ -34,13 +34,13 @@ class Normalizer{
             return next();
             
         } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err});
+            res.status(400).json({"statusCode" : 400, "message" : err.message});
         }
 
 
     }
 
-    normalizeCustomer(req, res, next){
+    normalizeCustomer = (req, res, next) => {
         try {
             this.validator.validateName(req.body.first_name);
             this.validator.validateName(req.body.last_name);
@@ -58,7 +58,7 @@ class Normalizer{
         }
     }
 
-    normalizeProduct(req, res, next){
+    normalizeProduct = (req, res, next) => {
         try {
             this.validator.validateName(req.body.name);
             this.validator.validateQuantity(req.body.quantity_available);

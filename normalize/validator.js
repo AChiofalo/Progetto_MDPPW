@@ -18,32 +18,32 @@ class Validator{
         this.message = "is not valid";
     }
 
-    validateEmail(email){
+    validateEmail = (email) => {
         if(!this.emailRegex.test(email))
             throw new Error(`email ${this.message}`);
     }
 
-    validateName(name){
+    validateName = (name) => {
         if(!this.nameRegex.test(name))
             throw new Error(`name ${this.message}`);
     }
 
-    validatePassword(password){
+    validatePassword = (password) => {
         if(!this.passwordRegex.test(password))
             throw new Error(`password ${this.message}`);
     }
 
-    validatePrice(price){
+    validatePrice = (price) => {
         if(!this.priceRegex.test(price))
             throw new Error(`price ${this.message}`);
     }
 
-    validateRole(role){
+    validateRole = (role) => {
         if(!this.roleList.includes(role))
             throw new Error(`role ${this.message}`);
     }
 
-    validateQuantity(quantity){
+    validateQuantity = (quantity) => {
         if(!this.quantityRegex.test(quantity) || quantity<0)
             throw new Error(`quantity ${this.message}`);
 
