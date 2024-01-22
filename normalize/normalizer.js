@@ -17,7 +17,7 @@ class Normalizer{
             this.validator.validateName(req.body.username);
             //this.validator.validatePrice(req.body.wallet);
 
-            req.body.username = this.sanitizer.sanitizePrice(req.body.username);
+            req.body.username = this.sanitizer.sanitizeName(req.body.username);
             //req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
             return next();
