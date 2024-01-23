@@ -91,7 +91,7 @@ exports.getVendor =  function(username) {
         });
     });
 };
-db.run  
+
 /**
  * 
  * @param {String} username 
@@ -105,7 +105,6 @@ exports.deleteVendor =  function(username) {
           err["code"] = 500;
           reject(err);
         }
-
         else if(!this.changes)
           reject({code:404,msg:`${username} not present`})
 
@@ -113,4 +112,16 @@ exports.deleteVendor =  function(username) {
           resolve({code:200,msg:`${username} deleted successfully`}); 
         });
     });
+};
+
+exports.updateWallet = async (username, change) => {
+  const sql = "UPDATE vendor SET wallet = ? WHERE username LIKE ?"
+  db.run(sql, [change,username], (err) => {
+    if(err){
+      err["code"] = 500
+      reject(err);
+    }
+    else
+      resolve({code:200,msg:`${username} wallet updated successfully`});
+  })
 };
