@@ -44,16 +44,10 @@ class Validator{
             throw new Error(`price ${this.message}`);
     }
 
-    validateRole = (role) => {
-        if(!this.roleList.includes(role))
-            throw new Error(`role ${this.message}`);
-    }
 
     validateQuantity = (quantity) => {
         if(!this.quantityRegex.test(quantity) || quantity<0)
             throw new Error(`quantity ${this.message}`);
-
-
     }
 
 }
