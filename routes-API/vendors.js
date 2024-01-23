@@ -8,19 +8,27 @@ const router = express.Router();
 const normalizer = new Normalizer();  //Normalizzatore
 
 
-
+/**
+ * Restituisce la risorsa vendor tramite req.params.username
+ */
 router.get('/:username', (req,res) => {
-  dao.searchVendorsByUsername(req.params.username)
+  dao.getVendor(req.params.username)
   .then((result) => res.status(200).json(result).end())
   .catch((err) => res.status(503).json({error: err}));
 });
 
+/**
+ * Restituisce tutti i vendor, se query presente quelli che iniziano con username specificato
+ */
 router.get('/', (req,res) => {
-  dao.searchVendorsByUsername("")
+  dao.searchVendorsByUsername(req.query.username)
   .then((result) => res.status(200).json(result).end())
   .catch((err) => res.status(503).json({error: err}));
 });
 
+/**
+ * Inserisce un nuovo vendor usando req.body
+ */
 router.post('/', normalizer.normalizeVendor ,(req, res) => {
    
   const description = req.body.description ? req.body.description : "";

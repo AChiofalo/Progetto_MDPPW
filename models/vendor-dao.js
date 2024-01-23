@@ -41,7 +41,7 @@ exports.searchVendorsByUsername = async function(username) {
     return new Promise( async (resolve, reject) => {  
       const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
       db.all(sql, [username+"%"], function(err, rows) { //% wildcard per SQL , errs: 1, 25 nella query std
-          if (err) 
+          if (err)  
             reject(err);
           else {
             const vendors = rows.map((row)=>(
@@ -59,23 +59,25 @@ exports.searchVendorsByUsername = async function(username) {
 /**
  * 
  * @param {String} username 
- * @returns Array di oggetti vendors o errore
+ * @returns oggetto vendor o errore
  */
-exports.searchVendorsByUsername = async function(username) {
+exports.getVendor = async function(username) {
   return new Promise( async (resolve, reject) => {  
     const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
-    db.all(sql, [username+"%"], function(err, rows) { //% wildcard per SQL , errs: 1, 25 nella query std
+    db.get(sql, [username], function(err, row) { 
         if (err) 
           reject(err);
-        else {
-          const vendors = rows.map((row)=>(
-          { 
-            "username":row.username,
-            "description":row.description, 
-            "img":row.img,
-          }
-          ));
-          resolve(vendors); 
-        }});
+        else if(!row)
+          reject(err);
+        else{
+          const vendor = 
+            { 
+              "username":row.username,
+              "description":row.description, 
+              "img":row.img,
+            }
+            resolve(vendor); 
+        }
+        });
     });
 };
