@@ -19,7 +19,7 @@ const bcrypt = require('bcrypt');
  * @param {Vendor} vendor
  * @returns Username del vendor o errore
  */
-exports.createVendor = async function(vendor) {
+exports.createVendor =  function(vendor) {
 return new Promise( async (resolve, reject) => {
     const sql = 'INSERT INTO vendor(username, password, description, img, wallet) VALUES (?, ?, ?, ?, ?)';
     const hash = await bcrypt.hash(vendor.password, 10);
@@ -47,8 +47,8 @@ return new Promise( async (resolve, reject) => {
  * @param {String} username 
  * @returns Array di oggetti vendors o errore
  */
-exports.searchVendorsByUsername = async function(username) {
-    return new Promise( async (resolve, reject) => {  
+exports.searchVendorsByUsername =  function(username) {
+    return new Promise(  (resolve, reject) => {  
       const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
       db.all(sql, [username+"%"], function(err, rows) { //% wildcard per SQL , errs: 1, 25 nella query std
           if (err)  
@@ -71,8 +71,8 @@ exports.searchVendorsByUsername = async function(username) {
  * @param {String} username 
  * @returns oggetto vendor o errore
  */
-exports.getVendor = async function(username) {
-  return new Promise( async (resolve, reject) => {  
+exports.getVendor =  function(username) {
+  return new Promise(  (resolve, reject) => {  
     const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
     db.get(sql, [username], function(err, row) { 
         if (err) 
@@ -98,7 +98,7 @@ db.run
  * @returns GONE o error
  */
 exports.deleteVendor =  function(username) {
-  return new Promise(  (resolve, reject) => {  
+  return new Promise( (resolve, reject) => {  
     const sql = "DELETE FROM vendor WHERE username LIKE ?";
     db.run(sql, [username], function(err) { 
         if (err) {
