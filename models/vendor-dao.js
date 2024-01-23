@@ -114,14 +114,15 @@ exports.deleteVendor =  function(username) {
     });
 };
 
-exports.updateWallet = async (username, change) => {
+exports.updateWallet = function(username, change){
+  return new Promise((resolve, reject) => {
   const sql = "UPDATE vendor SET wallet = ? WHERE username LIKE ?"
-  db.run(sql, [change,username], (err) => {
+  db.run(sql, [change,username], function(err) {
     if(err){
       err["code"] = 500;
       reject(err);
     }
     else
       resolve({code:200,msg:`${username} wallet updated successfully`});
-  })
-};
+  });
+})}

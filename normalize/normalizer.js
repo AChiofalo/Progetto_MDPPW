@@ -65,17 +65,6 @@ class Normalizer{
         }
     }
 
-    normalizeWallet = (req, res, next) => {
-        try {
-            this.validator.validatePrice(req.body.wallet);
-            req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
-
-            return next();
-
-        } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err});
-        }
-    }
 }
 
 module.exports = Normalizer;

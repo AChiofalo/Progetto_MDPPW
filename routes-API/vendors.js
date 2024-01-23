@@ -48,7 +48,7 @@ router.post('/', normalizer.normalizeVendor, (req, res) => {
 });
 
 /**
- * Cancella la risorsa vendor se presenta, altri
+ * Cancella la risorsa vendor se presente
  */
 router.delete('/:username', (req,res) => {
   dao.deleteVendor(req.params.username)
@@ -59,13 +59,18 @@ router.delete('/:username', (req,res) => {
 /**
  * Sostiuisce unicamente valore del wallet
  */
-router.put('/:username', normalizer.normalizeWallet ,(req,res) => {
-  dao.updateWallet(req.params.username, req.body.wallet)
+router.patch('/:username', async (req,res) => {
+
+  /*
+    TRANSAZIONE...
+    ...
+    ...
+  */
+
+   dao.updateWallet(req.params.username, req.body.wallet)
   .then((result) => res.status(result.code).json(result).end())
   .catch((err) => res.status(err.code).json(err));
-}
-
-);
+});
 
 
 module.exports = router;
