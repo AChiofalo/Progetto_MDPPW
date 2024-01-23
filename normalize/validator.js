@@ -9,6 +9,7 @@ class Validator{
     constructor(){
         this.emailRegex = new RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/);
         this.nameRegex = new RegExp(/^[a-zA-Z\s]+$/);
+        this.usernameRegex = new RegExp(/^[a-zA-Z\s0-9.]+$/);
         this.passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
         this.priceRegex = new RegExp(/^[0-9]+[.,][0-9]{2,}$/);
         this.quantityRegex = new RegExp(/^[0-9]+$/);
@@ -16,6 +17,11 @@ class Validator{
         this.roleList = ["VENDOR","CUSTOMER"];
 
         this.message = "is not valid";
+    }
+
+    validateUsername = (username) => {
+        if(!this.usernameRegex.test(username))
+            throw new Error(`name ${this.message}`);
     }
 
     validateEmail = (email) => {

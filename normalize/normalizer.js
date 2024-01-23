@@ -14,10 +14,9 @@ class Normalizer{
 
     normalizeVendor = (req, res, next) => {
         try {
-            this.validator.validateName(req.body.username);
+            this.validator.validateUsername(req.body.username);
             //this.validator.validatePrice(req.body.wallet);
 
-            req.body.username = this.sanitizer.sanitizeName(req.body.username);
             //req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
             return next();
