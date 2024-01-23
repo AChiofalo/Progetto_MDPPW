@@ -65,13 +65,9 @@ class Normalizer{
         }
     }
 
-
     normalizeWallet = (req, res, next) => {
         try {
             this.validator.validatePrice(req.body.wallet);
-
-
-            req.body.name = this.sanitizer.sanitizeName(req.body.name);
             req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
             return next();

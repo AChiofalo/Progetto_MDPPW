@@ -11,8 +11,6 @@ class Validator{
         this.nameRegex = new RegExp(/^[a-zA-Z\s]+$/);
         this.usernameRegex = new RegExp(/^[a-zA-Z\s0-9.]+$/);
         this.passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
-        this.priceRegex = new RegExp(/^[0-9]+[.,][0-9]{2,}$/);
-        this.quantityRegex = new RegExp(/^[0-9]+$/);
 
         this.roleList = ["VENDOR","CUSTOMER"];
 
@@ -37,17 +35,6 @@ class Validator{
     validatePassword = (password) => {
         if(!this.passwordRegex.test(password))
             throw new Error(`password ${this.message}`);
-    }
-
-    validatePrice = (price) => {
-        if(!this.priceRegex.test(price))
-            throw new Error(`price ${this.message}`);
-    }
-
-
-    validateQuantity = (quantity) => {
-        if(!this.quantityRegex.test(quantity) || quantity<0)
-            throw new Error(`quantity ${this.message}`);
     }
 
 }

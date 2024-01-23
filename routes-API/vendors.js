@@ -59,7 +59,7 @@ router.delete('/:username', (req,res) => {
 /**
  * Sostiuisce unicamente valore del wallet
  */
-router.put('/:username', normalizer.normalizeVendor ,(req,res) => {
+router.put('/:username', normalizer.normalizeWallet ,(req,res) => {
   dao.updateWallet(req.params.username, req.body.wallet)
   .then((result) => res.status(result.code).json(result).end())
   .catch((err) => res.status(err.code).json(err));

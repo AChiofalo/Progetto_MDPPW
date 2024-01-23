@@ -32,32 +32,12 @@ class Sanitizer{
     }
 
     /**
-     * Restituisce il prezzo in number con le ultime due cifre rappresentanti i centesimi
-     * @param {String} price 
-     * @returns {Number} price come numero intero: ultime due cifre sono in centesimi
-     */
-    sanitizePrice = (price) => {
-        let res = price;
-        res = res.replace(/\./, '');
-        return res-0;
-    }
-
-    /**
      * Restituisce email in upperCase
      * @param {String} email 
      * @returns email in upperCase
      */
     sanitizeEmail = (email) => {
         return email.toUpperCase();;
-    }
-
-    /**
-     * Restituisce role in upperCase
-     * @param {String} role 
-     * @returns role in upperCase
-     */
-    sanitizeRole = (role) => {
-        return role.toUpperCase();;
     }
 
 

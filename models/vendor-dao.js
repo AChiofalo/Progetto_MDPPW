@@ -118,7 +118,7 @@ exports.updateWallet = async (username, change) => {
   const sql = "UPDATE vendor SET wallet = ? WHERE username LIKE ?"
   db.run(sql, [change,username], (err) => {
     if(err){
-      err["code"] = 500
+      err["code"] = 500;
       reject(err);
     }
     else
