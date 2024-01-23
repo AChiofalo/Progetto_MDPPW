@@ -10,6 +10,16 @@ class Sanitizer{
 
     constructor(){}
 
+        /**
+     * Restituisce nome in lowerCase
+     * @param {String} username 
+     * @returns username in lowerCase
+     */
+    sanitizeUsername = (username) => {
+        let res = username.toLowerCase();;
+        return res;
+    }
+
     /**
      * Restituisce nome in upperCase e rimuove tutti gli spazi bianchi
      * @param {String} name 

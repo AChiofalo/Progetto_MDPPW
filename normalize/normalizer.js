@@ -15,7 +15,10 @@ class Normalizer{
     normalizeVendor = (req, res, next) => {
         try {
             this.validator.validateUsername(req.body.username);
+
+            req.body.username = this.sanitizer.sanitizeUsername(req.body.username);
             //this.validator.validatePrice(req.body.wallet);
+
 
             //req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
@@ -30,6 +33,7 @@ class Normalizer{
 
     normalizeCustomer = (req, res, next) => {
         try {
+            this.validator.validateUsername(req.body.username);
             this.validator.validateName(req.body.first_name);
             this.validator.validateName(req.body.last_name);
             this.validator.validatePrice(req.body.wallet);
