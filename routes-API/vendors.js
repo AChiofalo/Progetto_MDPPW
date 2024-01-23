@@ -9,26 +9,28 @@ const normalizer = new Normalizer();  //Normalizzatore
 
 
 
-router.get('/:id', normalizer.normalizeVendor, (req,res) => {
-  dao.getVendor(req.params.id)
-  .then((result) => res.status(201).json(result).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
+router.get('/:username', (req,res) => {
+  dao.searchVendorsByUsername(req.params.username)
+  .then((result) => res.status(200).json(result).end())
+  .catch((err) => res.status(503).json({error: err}));
 });
 
-router.get('/', normalizer.normalizeVendor ,(req,res) => {
-    
-  dao.getVendors(req.params.id)
-  .then((result) => res.status(201).json(result).end())
-  .catch((err) => res.status(503).json({ error: 'Database error during retrieve'}));
+router.get('/', (req,res) => {
+  dao.searchVendorsByUsername("")
+  .then((result) => res.status(200).json(result).end())
+  .catch((err) => res.status(503).json({error: err}));
 });
 
 router.post('/', normalizer.normalizeVendor ,(req, res) => {
    
+  const description = req.body.description ? req.body.description : "";
+  const img = req.body.img ? req.body.img : "none";
+
   const vendor = {
     "username": req.body.username,
     "password": req.body.password,
-    "description": "",
-    "img": "none",
+    "description": description,
+    "img": img,
     "wallet": 0
   }
 
