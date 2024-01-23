@@ -24,10 +24,20 @@ return new Promise( async (resolve, reject) => {
     const sql = 'INSERT INTO vendor(username, password, description, img, wallet) VALUES (?, ?, ?, ?, ?)';
     const hash = await bcrypt.hash(vendor.password, 10);
     db.run(sql, [vendor.username, hash, vendor.description, vendor.img, vendor.wallet], function(err) {
-        if (err) 
-        reject(err);
-        else 
-        resolve(vendor.username);
+      if(err){
+        if(err.errno == 19){
+          err["code"] = 400
+          err["msg"] = `${vendor.username} already present`
+          reject(err)
+        }
+        else{
+          err["code"] = 500;
+          err["msg"] = `Internal Error`
+          reject(err);
+        }
+      }
+      else 
+        resolve({code:200,msg:`${vendor.username} created successfully`});
     });
     })
 }; 
@@ -67,8 +77,8 @@ exports.getVendor = async function(username) {
     db.get(sql, [username], function(err, row) { 
         if (err) 
           reject(err);
-        else if(!row)
-          reject(err);
+        if(!row)
+          reject({code:404})
         else{
           const vendor = 
             { 
@@ -78,6 +88,29 @@ exports.getVendor = async function(username) {
             }
             resolve(vendor); 
         }
+        });
+    });
+};
+db.run  
+/**
+ * 
+ * @param {String} username 
+ * @returns GONE o error
+ */
+exports.deleteVendor =  function(username) {
+  return new Promise(  (resolve, reject) => {  
+    const sql = "DELETE FROM vendor WHERE username LIKE ?";
+    db.run(sql, [username], function(err) { 
+        if (err) {
+          err["code"] = 500;
+          reject(err);
+        }
+
+        else if(!this.changes)
+          reject({code:404,msg:`${username} not present`})
+
+        else
+          resolve({code:200,msg:`${username} deleted successfully`}); 
         });
     });
 };

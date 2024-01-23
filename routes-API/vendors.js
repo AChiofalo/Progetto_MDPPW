@@ -29,7 +29,7 @@ router.get('/', (req,res) => {
 /**
  * Inserisce un nuovo vendor usando req.body
  */
-router.post('/', normalizer.normalizeVendor ,(req, res) => {
+router.post('/', normalizer.normalizeVendor, (req, res) => {
    
   const description = req.body.description ? req.body.description : "";
   const img = req.body.img ? req.body.img : "none";
@@ -43,13 +43,18 @@ router.post('/', normalizer.normalizeVendor ,(req, res) => {
   }
 
   dao.createVendor(vendor)
-  .then((result) => res.status(201).header('Location', `/vendors/${result}`).end())
-  .catch((err) => res.status(503).json({error: err}));
+  .then((result) => res.status(result.code).json(result).end())
+  .catch((err) => res.status(err.code).json({error: err}));
 });
 
-
-
-
+/**
+ * Cancella la risorsa vendor se presenta, altri
+ */
+router.delete('/:username', (req,res) => {
+  dao.deleteVendor(req.params.username)
+  .then((result) => res.status(result.code).json(result).end())
+  .catch((err) => res.status(err.code).json(err));
+});
 
 
 module.exports = router;
