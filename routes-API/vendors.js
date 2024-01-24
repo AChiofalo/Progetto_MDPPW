@@ -31,7 +31,7 @@ router.get('/', (req,res) => {
 /**
  * Inserisce un nuovo vendor usando req.body
  */
-router.post('/', normalizer.normalizeVendor, (req, res) => {
+router.post('/', normalizer.normalizeCreateVendor, (req, res) => {
    
 
   const vendor = {
@@ -44,7 +44,7 @@ router.post('/', normalizer.normalizeVendor, (req, res) => {
 
   dao.createVendor(vendor)
   .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json({error: err}));
+  .catch((err) => res.status(err.code).json(err));
 });
 
 /**

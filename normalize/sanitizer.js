@@ -16,8 +16,7 @@ class Sanitizer{
      * @returns username in lowerCase
      */
     sanitizeUsername = (username) => {
-        let res = username.toLowerCase();;
-        return res;
+        return username.toLowerCase();
     }
 
     /**

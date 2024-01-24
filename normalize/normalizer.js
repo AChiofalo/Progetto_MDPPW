@@ -2,31 +2,33 @@
 
 const Validator = require('./validator.js');
 const Sanitizer = require('./sanitizer.js');
+const Checker = require('./checker.js');
 
 
 class Normalizer{   
     constructor(){
         this.validator = new Validator();
         this.sanitizer = new Sanitizer();
+        this.checker = new Checker();
     }
 
 
-    normalizeVendor = (req, res, next) => {
+    normalizeCreateVendor = (req, res, next) => {
         try {
-            if(!req.body.username || !req.body.password)
-                throw(new Error(`username/password fields required`))
-
+            this.checker.checkCreateVendor(req.body);
             this.validator.validateUsername(req.body.username);
             req.body.username = this.sanitizer.sanitizeUsername(req.body.username);
 
             return next();
             
         } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err.message});
+            res.status(400).json({"code" : 400, "msg" : err.message});
         }
 
 
     }
+
+
 
     normalizeCustomer = (req, res, next) => {
         try {
@@ -44,7 +46,7 @@ class Normalizer{
             return next();
 
         } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err});
+            res.status(400).json({"code" : 400, "msg" : err});
         }
     }
 
@@ -61,7 +63,7 @@ class Normalizer{
             return next();
 
         } catch(err){
-            res.status(400).json({"statusCode" : 400, "message" : err});
+            res.status(400).json({"code" : 400, "msg" : err});
         }
     }
 
