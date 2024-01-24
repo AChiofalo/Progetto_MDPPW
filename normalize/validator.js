@@ -8,10 +8,9 @@ class Validator{
 
     constructor(){
         this.emailRegex = new RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/);
-        this.nameRegex = new RegExp(/^[a-zA-Z\s]+$/);
+        this.nameRegex = new RegExp(/^[a-zA-Z0-9\s]+$/);
         this.usernameRegex = new RegExp(/^[a-zA-Z\s0-9.]+$/);
         this.passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
-        Number.isInteger
         this.message = "is not valid";
     }
 

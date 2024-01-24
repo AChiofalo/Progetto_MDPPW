@@ -8,7 +8,7 @@ const router = express.Router();
 
 const normalizer = new Normalizer();  //Normalizzatore
 
-app.post('/api/sessions', function(req, res, next) {
+router.post('/api/sessions', function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
         if (!user) {
@@ -26,7 +26,7 @@ app.post('/api/sessions', function(req, res, next) {
 
 // DELETE /sessions/current 
 // Logout
-app.delete('/api/sessions/current', function(req, res){
+router.delete('/api/sessions/current', function(req, res){
     req.logout(function(err) {
         if (err) { return res.status(503).json(err); }
       });

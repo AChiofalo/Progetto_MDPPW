@@ -4,12 +4,19 @@
 class Checker{
     constructor(){
         this.createVendorKeys = ["username","password","description"];
+        this.createProductKeys = ["name","vendor_username","description","quantity_available","price"];
         this.updateQuantityKeys = ["change"];
         this.msg = "wrong keys!";
     }
 
     checkCreateVendor = body => {
         const err = baseCheck(body, this.createVendorKeys, this.msg)
+        if(err)
+            throw err;
+    }
+
+    checkCreateProduct = body => {
+        const err = baseCheck(body, this.createProductKeys, this.msg)
         if(err)
             throw err;
     }

@@ -10,26 +10,26 @@ const normalizer = new Normalizer();  //Normalizzatore
 /**
  * Restituisce la risorsa product tramite req.params.name
  */
-router.get('/:name', (req,res) => {
+router.get('/:name', (req, res) => {
   dao.getProduct(req.params.name)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+    .then((result) => res.status(result.code).json(result).end())
+    .catch((err) => res.status(err.code).json(err));
 });
 
 /**
  * Restituisce tutti i product, se query presente quelli che iniziano con name specificato
  */
-router.get('/', (req,res) => {
-  dao.searchProductsByName(req.query.name?req.query.name:"")
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+router.get('/', (req, res) => {
+  dao.searchProductsByName(req.query.name ? req.query.name : "")
+    .then((result) => res.status(result.code).json(result).end())
+    .catch((err) => res.status(err.code).json(err));
 });
 
 /**
  * Inserisce un nuovo product usando req.body
  */
-router.post('/', normalizer.normalizeCreateVendor, (req, res) => {
-   
+router.post('/', normalizer.normalizeCreateProduct, (req, res) => {
+
 
   const product = {
     "name": req.body.name,
@@ -41,48 +41,43 @@ router.post('/', normalizer.normalizeCreateVendor, (req, res) => {
   }
 
   dao.createProduct(product)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+    .then((result) => res.status(result.code).json(result).end())
+    .catch((err) => res.status(err.code).json(err));
 });
 
 /**
  * Cancella la risorsa product se presente
  */
-router.delete('/:name', (req,res) => {
+router.delete('/:name', (req, res) => {
   dao.deleteProduct(req.params.name)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+    .then((result) => res.status(result.code).json(result).end())
+    .catch((err) => res.status(err.code).json(err));
 });
 
 /**
  * Cambia qantità in base al change
  */
-router.patch('/:name/quantity', normalizer.normalizeUpdateWallet, async (req,res) => {
+router.patch('/:name/quantity', normalizer.normalizeUpdateWallet, async (req, res) => {
 
-  /*
-    TRANSAZIONE...
-    ...
-    ...
-  */
-try {
-  const resGet = await dao.getProduct(req.params.name);
-  const newQuantity = resGet.product.quantity_available + req.body.change;
-  if(newQuantity<0){
-    const err = new Error();
-    err.msg = "No quantity";
-    err.code = "400";
-    throw err;
+  try {
+    const resGet = await dao.getProduct(req.params.name);
+    const newQuantity = resGet.product.quantity_available + req.body.change;
+    if (newQuantity < 0) {
+      const err = new Error();
+      err.msg = "No quantity";
+      err.code = "400";
+      throw err;
+    }
+
+    const result = await dao.updateQuantity(req.params.name, newQuantity);
+    res.status(result.code).json(result).end();
+  }
+  catch (err) {
+    res.status(err.code).json(err).end();
   }
 
-  const result = await dao.updateQuantity(req.params.name, newQuantity);
-  res.status(result.code).json(result).end();
-}
-catch(err){
-    res.status(err.code).json(err).end();
-}
 
 
-  
 });
 
 
