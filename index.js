@@ -43,8 +43,8 @@ app.get('*', (req,res)=> {
 // set up the "username and password" login strategy
 // by setting a function to verify username and password
 passport.use('vendor',new LocalStrategy(
-  function(username, password, done) {
-    const res = vendorDao.getVendor(username, password) 
+  async function(username, password, done) {
+    const res = await vendorDao.getVendor(username, password) 
       if (!res.user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
