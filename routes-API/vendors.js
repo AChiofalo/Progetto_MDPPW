@@ -5,6 +5,8 @@ const dao = require('../models/vendor-dao.js');
 const express = require('express');
 const router = express.Router();
 
+const path = require('path');
+
 const normalizer = new Normalizer();  //Normalizzatore
 
 
@@ -31,14 +33,12 @@ router.get('/', (req,res) => {
  */
 router.post('/', normalizer.normalizeVendor, (req, res) => {
    
-  const description = req.body.description ? req.body.description : "";
-  const img = req.body.img ? req.body.img : "none";
 
   const vendor = {
     "username": req.body.username,
     "password": req.body.password,
-    "description": description,
-    "img": img,
+    "description": req.body.description,
+    "img": `./assets/vendors-img/${req.body.username}`,
     "wallet": 0
   }
 

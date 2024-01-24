@@ -1,16 +1,19 @@
 {
     "user1": {
         "username": "run4life",
-        "password": "fast"
+        "password": "fast",
+        "description": "Test 3 description"
     },
 
     "user2": {  
         "username": "RUN4LIFE",
-        "password": "fast"
+        "password": "fast",
+        "description": "Test 3 description"
     },
 
     "user3": {
         "username": "Test3",
-        "password": "password"
+        "password": "password",
+        "description": "Test 3 description"
     }
 }
