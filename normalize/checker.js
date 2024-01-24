@@ -1,23 +1,39 @@
 /**
- * Controlla che le etichette dei campi siano corrette
+ * Controlla che le chiavi dei campi del request body siano corrette
  */
 class Checker{
     constructor(){
         this.createVendorKeys = ["username","password","description"];
+        this.updateQuantityKeys = ["change"];
         this.msg = "wrong keys!";
     }
 
-    /**
-     * 
-     * @param {Object} vendor 
-     */
-    checkCreateVendor = (body) => {
-        const bodyKeys = Object.keys(body);
-        if(bodyKeys.length != this.createVendorKeys.length)
-            throw new Error(this.msg);
-        if(!bodyKeys.every((val) => this.createVendorKeys.includes(val)))
-            throw new Error(this.msg);
+    checkCreateVendor = body => {
+        const err = baseCheck(body, this.createVendorKeys, this.msg)
+        if(err)
+            throw err;
     }
+
+    checkUpdateQuantity = body => {
+        const err = baseCheck(body, this.updateQuantityKeys, this.msg)
+        if(err)
+            throw err;
+    }
+}
+
+/**
+ * Controlla che i campi body siano quelli excpected
+ * 
+ * @param {Request.body} body 
+ * @param {Array} expected 
+ * @param {String} msg 
+ */
+function baseCheck(body,expected,msg) {
+    const bodyKeys = Object.keys(body);
+    if(bodyKeys.length != expected.length) 
+        return new Error(msg);
+    if(!bodyKeys.every((val) => expected.includes(val)))
+        return new Error(msg);
 }
 
 module.exports = Checker;

@@ -24,8 +24,18 @@ class Normalizer{
         } catch(err){
             res.status(400).json({"code" : 400, "msg" : err.message});
         }
+    }
 
+    normalizeUpdateWallet = (req, res, next) => {
+        try {
+            this.checker.checkUpdateQuantity(req.body);
+            this.validator.validateQuantity(req.body.change);
 
+            return next();
+            
+        } catch(err){
+            res.status(400).json({"code" : 400, "msg" : err.message});
+        }
     }
 
 

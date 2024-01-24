@@ -11,7 +11,7 @@ class Validator{
         this.nameRegex = new RegExp(/^[a-zA-Z\s]+$/);
         this.usernameRegex = new RegExp(/^[a-zA-Z\s0-9.]+$/);
         this.passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
-        
+        Number.isInteger
         this.message = "is not valid";
     }
 
@@ -33,6 +33,11 @@ class Validator{
     validatePassword = (password) => {
         if(!this.passwordRegex.test(password))
             throw new Error(`password ${this.message}`);
+    }
+
+    validateQuantity = (quantity) => {
+        if(!Number.isInteger(quantity))
+            throw new Error(`quantity ${this.message}`)
     }
 
 }
