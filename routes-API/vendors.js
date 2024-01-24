@@ -57,7 +57,7 @@ router.delete('/:username', (req,res) => {
 });
 
 /**
- * Al momento sostiuisce unicamente valore del wallet
+ * Al momento sostiuisce unicamente valore del wallet via "change"
  */
 router.patch('/:username', async (req,res) => {
 
