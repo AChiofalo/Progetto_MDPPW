@@ -1,0 +1,52 @@
+Per accedere all'API:
+http://localhost:3000/localhost/api/<risorsa>
+
+risorse API disponibili:
+
+vendor
+    username
+    password
+    description
+    img
+    wallet
+
+    /api/vendors
+    GET restituisce code, messaggio, lista vendor
+    POST richiede chiavi username, password, description
+
+    /api/vendors/:username
+    GET restituisce vendor 
+    DELETE elimina vendor 
+
+    /api/vendors/:username/wallet
+    PATCH richiede chiave change
+customers
+    username
+    password
+    first_name
+    last_name
+    wallet
+
+    /api/customers
+    GET restituisce code, messaggio, lista customer
+    POST richiede chiavi username, password, first_name, last_name
+
+    /api/customers/:username
+    GET restituisce customers
+    DELETE elimina customers
+
+    /api/customers/:username/wallet
+    PATCH richiede chiave change
+
+product
+    name
+    vendor_username
+    description
+    img
+    quantity_available
+    price
+
+    /api/products
+    GET restituisce code, messaggio, lista product
+    POST richiede chiavi name 
+

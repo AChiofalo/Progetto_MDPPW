@@ -8,13 +8,13 @@ const express = require('express'); //Server
 const sessions = require('express-session'); //Sessioni
 const path = require('path');
 
-/*const userDao = require('./models/customer-dao'); //Data Access Object per utenti
-const productDao = require('./models/product-dao'); 
-const normalizer = new Normalizer();  //Normalizzatore
-*/
+
+const passport = require('passport'); // auth middleware
+const LocalStrategy = require('passport-local').Strategy; // username and password for login
+const session = require('express-session');
 
 const app = express();
-const port = 3000;  //To change
+const port = 3000; 
 app.listen(port, () => {`Listening on localhost:${port}`});
 
 const productsRouter = require('./routes-API/products');
@@ -35,4 +35,37 @@ app.use('/api/products', productsRouter);
 app.get('*', (req,res)=> {     
     res.sendFile(path.resolve(__dirname,'public', 'index.html'));
 });
+
+
+
+//const FileStore = require('session-file-store')(session);
+
+// set up the "username and password" login strategy
+// by setting a function to verify username and password
+passport.use('vendor',new LocalStrategy(
+  function(username, password, done) {
+    const res = vendorDao.getVendor(username, password) 
+      if (!res.user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!res.check) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    })
+);
+
+passport.use('customer',new LocalStrategy(
+  function(username, password, done) {
+    userDao.getUser(username, password).then(({user, check}) => {
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!check) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    })
+  }
+));
  
