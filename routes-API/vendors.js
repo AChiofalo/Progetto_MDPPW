@@ -13,17 +13,17 @@ const normalizer = new Normalizer();  //Normalizzatore
  */
 router.get('/:username', (req,res) => {
   dao.getVendor(req.params.username)
-  .then((result) => res.status(200).json(result).end())
-  .catch((err) => res.status(503).json({error: err}));
+  .then((result) => res.status(result.code).json(result).end())
+  .catch((err) => res.status(err.code).json(err));
 });
 
 /**
  * Restituisce tutti i vendor, se query presente quelli che iniziano con username specificato
  */
 router.get('/', (req,res) => {
-  dao.searchVendorsByUsername(req.query.username)
-  .then((result) => res.status(200).json(result).end())
-  .catch((err) => res.status(503).json({error: err}));
+  dao.searchVendorsByUsername(req.query.username?req.query.username:"")
+  .then((result) => res.status(result.code).json(result).end())
+  .catch((err) => res.status(err.code).json(err));
 });
 
 /**
@@ -57,7 +57,7 @@ router.delete('/:username', (req,res) => {
 });
 
 /**
- * Sostiuisce unicamente valore del wallet
+ * Al momento sostiuisce unicamente valore del wallet
  */
 router.patch('/:username', async (req,res) => {
 
@@ -66,11 +66,25 @@ router.patch('/:username', async (req,res) => {
     ...
     ...
   */
+try {
+  const vendor = await dao.getVendor(req.params.username);
+  const newWallet = vendor.wallet + req.body.change;
 
-   dao.updateWallet(req.params.username, req.body.wallet)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+  const res = await dao.updateWallet(req.params.username, req.body.change);
+  res.status(result.code).json(result).end();
+}
+catch(err){
+    res.status(err.code).json(err).end();
+}
+
+
+  
 });
 
+
+//TODO
+/*i DAO GET possono tranquillamente restituire l'intera risorsa...sta poi ad una funzione 
+  secondaria rimuovere informazioni sensibili
+*/
 
 module.exports = router;

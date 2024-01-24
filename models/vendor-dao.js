@@ -51,8 +51,10 @@ exports.searchVendorsByUsername =  function(username) {
     return new Promise(  (resolve, reject) => {  
       const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
       db.all(sql, [username+"%"], function(err, rows) { //% wildcard per SQL , errs: 1, 25 nella query std
-          if (err)  
+          if (err)  {
+            err["code"] = 500;
             reject(err);
+          }
           else {
             const vendors = rows.map((row)=>(
             { 
@@ -61,7 +63,7 @@ exports.searchVendorsByUsername =  function(username) {
               "img":row.img,
             }
             ));
-            resolve(vendors); 
+            resolve({code:200,msg:"ok",vendors:vendors}); 
           }});
       });
 };
@@ -73,20 +75,25 @@ exports.searchVendorsByUsername =  function(username) {
  */
 exports.getVendor =  function(username) {
   return new Promise(  (resolve, reject) => {  
-    const sql = "SELECT username, description, img FROM vendor WHERE username LIKE ?;" 
+    const sql = "SELECT * FROM vendor WHERE username LIKE ?;" 
     db.get(sql, [username], function(err, row) { 
-        if (err) 
+        if (err) {
+          err["code"] = 500;
           reject(err);
-        if(!row)
+        }
+        if(!row){
           reject({code:404})
+        }
         else{
           const vendor = 
             { 
               "username":row.username,
+              "password":row.password,
               "description":row.description, 
               "img":row.img,
+              "wallet":row.wallet
             }
-            resolve(vendor); 
+            resolve({code:200,msg:"ok",vendor: vendor}); 
         }
         });
     });
