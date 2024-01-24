@@ -67,10 +67,16 @@ router.patch('/:username', async (req,res) => {
     ...
   */
 try {
-  const vendor = await dao.getVendor(req.params.username);
-  const newWallet = vendor.wallet + req.body.change;
+  const resGet = await dao.getVendor(req.params.username);
+  const newWallet = resGet.vendor.wallet + req.body.change;
+  if(newWallet<0){
+    const err = new Error();
+    err.msg = "No credit";
+    err.code = "400";
+    throw err;
+  }
 
-  const res = await dao.updateWallet(req.params.username, req.body.change);
+  const result = await dao.updateWallet(req.params.username, newWallet);
   res.status(result.code).json(result).end();
 }
 catch(err){
