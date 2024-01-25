@@ -43,7 +43,6 @@ CREATE TABLE "transaction" (
     "product_id" INTEGER NOT NULL,
     "customer_id" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "date" DATE NOT NULL,
     PRIMARY KEY ("id"),
     FOREIGN KEY ("product_id") REFERENCES product,
     FOREIGN KEY ("customer_id") REFERENCES customer
