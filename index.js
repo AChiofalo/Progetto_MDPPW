@@ -1,6 +1,5 @@
 "use strict";
 
-
 const logger = require('morgan');   //Logger
 const express = require('express'); //Server
 const path = require('path');
@@ -18,7 +17,7 @@ const productsRouter = require('./routes-API/products');
 const vendorsRouter = require('./routes-API/vendors');
 const sessionsRouter = require('./routes-API/sessions');
 
-//QUI VANNO MIDDLEWARE GENERICHE
+
 app.use(logger('short'));
 
 app.use(express.json());
@@ -42,33 +41,30 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/vendors', vendorsRouter);
 app.use('/api/products', productsRouter);
 //-------
-//ROUTES BASE
+//ROUTES BASE, page.js agisce prima
 app.get('*', (req,res)=> {     
-    console.log(req.session);
     res.sendFile(path.resolve(__dirname,'public', 'index.html'));
 });
 
 
 const isVendor = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.type == 'vendor'){
+  if(req.isAuthenticated() && req.user.role == 'vendor'){ //req.user è impostato da Passport
       return next();
   }
-  return res.status(401).json({"statusCode" : 401, "message" : "not authenticated"});
+  return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
 }
 
 const isCustomer = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.type == 'customer'){
+  if(req.isAuthenticated() && req.user.role == 'customer'){
       return next();
   }
-  return res.status(401).json({"statusCode" : 401, "message" : "not authenticated"});
+  return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
 }
-
-
 
 const verify = async (username, password, done) => {
   try{
-    const res = await vendorDao.getVendor(username, password);
-    return done(null,res.vendor); //Username e password corretti
+    const res = await userDao.getUser(username, password);
+    return done(null,res.user); //Username e password corretti
 
   }catch(err){
     if(err.code === 404) return done(null,false); //Username errato
@@ -79,34 +75,22 @@ const verify = async (username, password, done) => {
   }
 }
 
-passport.use('vendor', new LocalStrategy(verify)); //Primo parametro sbagliato?
+passport.use(new LocalStrategy(verify));
  
 
-passport.use('customer',new LocalStrategy(
-  async function(username, password, done) {
-    const res = await customerDao.getCustomer(username, password)
-      if (!res.user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!res.check) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-  }
-));
 
-// serialize and de-serialize the user (user object <-> session)
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
+//Aggiunge al req la chiave user, usata successivamente
 passport.deserializeUser(function(id, done) {
   userDao.getUserById(id).then(user => {
     done(null, user);
   });
 });
 
-*/
 
 
 
