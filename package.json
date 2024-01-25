@@ -18,6 +18,7 @@
     "node": "^21.2.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "session-file-store": "^1.5.0",
     "sqlite3": "^5.1.7-rc.0"
   }
 }
