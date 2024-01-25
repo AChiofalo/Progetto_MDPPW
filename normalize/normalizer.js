@@ -57,8 +57,6 @@ class Normalizer{
         }
     }
 
-
-
     normalizeCustomer = (req, res, next) => {
         try {
 
@@ -79,22 +77,7 @@ class Normalizer{
         }
     }
 
-    normalizeProduct = (req, res, next) => {
-        try {
-            this.validator.validateName(req.body.name);
-            this.validator.validateQuantity(req.body.quantity_available);
-            this.validator.validatePrice(req.body.price);
 
-
-            req.body.name = this.sanitizer.sanitizeName(req.body.name);
-            req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
-
-            return next();
-
-        } catch(err){
-            res.status(400).json({"code" : 400, "msg" : err});
-        }
-    }
 
 }
 
