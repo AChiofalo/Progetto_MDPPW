@@ -41,7 +41,7 @@ class Validator{
     }
 
     validateRole = (role) => {
-        if(!this.roleOptions.includes(role.toUpperCase()));
+        if(!this.roleOptions.includes(role.toUpperCase()))
             throw new Error(`role ${this.message}`);
     }
 

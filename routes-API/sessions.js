@@ -48,7 +48,7 @@ router.post('/users', normalizer.normalizeCreateUser, async (req, res) => {
     };
     const result = await userDao.createUser(user);
     console.log(result.code);
-    res.status(result.code).header('Location', `/users/${result.username}`).end()
+    res.status(result.code).header('Location', `/users/${result.id}`).end()
   } catch (err) {
     res.status(err.code).json(err);
   }

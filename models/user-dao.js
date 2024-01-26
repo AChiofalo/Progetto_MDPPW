@@ -41,7 +41,7 @@ exports.createUser = function (user) {
                 resolve({
                     code: 200,
                     msg: `${user.username} created successfully`,
-                    username: `${user.id}`
+                    id: `${this.lastID}`
                 });
             });
     });
