@@ -1,10 +1,10 @@
 'use strict';
 const Normalizer = require('../normalize/normalizer.js');
 
-const daoCustomer = require('../models/customer-dao.js');
-const daoVendor = require('../models/vendor-dao.js');
+const daoUser = require('../models/user-dao.js');
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 const normalizer = new Normalizer();  //Normalizzatore
 
@@ -33,6 +33,27 @@ router.delete('/api/sessions/current', function(req, res){
     res.end();
   });
 
+// POST /users
+// Sign up
+app.post('/api/users', /* [add here some validity checks], */async (req, res) => {
+  // create a user object from the signup form
+  // additional fields may be useful (name, role, etc.)
+  const user = {
+    email: req.body.email,
+    password: req.body.password,
+    role: req.body.role
+  };
+
+  try{
+    const result = await userDao.createUser(user);
+    res.status(result.code).header('Location', `/users/${result.username}`).end()
+  } catch(err){
+    res.status(err.code).json(err)
+  }
+)
 
 
+
+
+  
 module.exports = router;
