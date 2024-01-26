@@ -6,6 +6,7 @@ class Checker{
         this.createVendorKeys = ["username","password","description"];
         this.createProductKeys = ["name","vendor_username","description","quantity_available","price"];
         this.updateQuantityKeys = ["change"];
+        this.createUserKeys = ["username","password","role"];
         this.msg = "wrong keys!";
     }
 
@@ -23,6 +24,12 @@ class Checker{
 
     checkUpdateQuantity = body => {
         const err = baseCheck(body, this.updateQuantityKeys, this.msg)
+        if(err)
+            throw err;
+    }
+
+    checkCreateUser = body => {
+        const err = baseCheck(body, this.createUserKeys, this.msg)
         if(err)
             throw err;
     }

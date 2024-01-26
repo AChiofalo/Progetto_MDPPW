@@ -11,6 +11,7 @@ class Validator{
         this.nameRegex = new RegExp(/^[a-zA-Z0-9\s]+$/);
         this.usernameRegex = new RegExp(/^[a-zA-Z\s0-9.]+$/);
         this.passwordRegex = new RegExp(/^[a-zA-Z0-9]+$/);
+        this.roleOptions = ["VENDOR","CUSTOMER"];
         this.message = "is not valid";
     }
 
@@ -39,6 +40,12 @@ class Validator{
             throw new Error(`quantity ${this.message}`)
     }
 
+    validateRole = (role) => {
+        if(!this.roleOptions.includes(role.toUpperCase()));
+            throw new Error(`role ${this.message}`);
+    }
+
+    
 }
 
 module.exports = Validator;

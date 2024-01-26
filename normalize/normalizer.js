@@ -15,7 +15,7 @@ class Normalizer{
 
     normalizeCreateVendor = (req, res, next) => {
         try {
-            this.checker.checkCreateVendor(req.body);
+            this.checker.checkCreateUser(req.body);
             this.validator.validateUsername(req.body.username);
             req.body.username = this.sanitizer.sanitizeUsername(req.body.username);
 
@@ -28,6 +28,7 @@ class Normalizer{
 
     normalizeCreateProduct =  (req, res, next) => {
         try {
+
             this.checker.checkCreateProduct(req.body);
             this.validator.validateName(req.body.name);
             req.body.name = this.sanitizer.sanitizeName(req.body.name);
@@ -77,6 +78,23 @@ class Normalizer{
         }
     }
 
+    normalizeCreateUser = (req, res, next) => {
+        try {
+            this.checker.checkCreateUser(req.body);
+
+            this.validator.validateUsername(req.body.username);
+            this.validator.validatePassword(req.body.password);
+            this.validator.validateRole(req.body.role);
+
+            req.body.username = this.sanitizer.sanitizeUsername(req.body.username);
+            req.body.role = this.sanitizer.sanitizeRole(req.body.role);
+
+            return next();
+        }
+        catch(err){
+            res.status(400).json({"code" : 400, "msg" : err.message});
+        }
+    }
 
 
 }

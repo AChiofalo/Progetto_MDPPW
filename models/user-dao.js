@@ -29,20 +29,20 @@ exports.createUser = function (user) {
             function (err) {
                 if (err) {
                     if (err.errno == 19) {  //Caso già esistente
-                        err["code"] = 400
-                        err["msg"] = `${user.username} already present`
-                        reject(err)
-                    } else {               //Caso errore interno
-                        err["code"] = 500;
-                        err["msg"] = `Internal Error`;
+                        err["code"] = 400;
+                        err["msg"] = `${user.username} already present`;
                         reject(err);
                     }
-                } else                  //Caso tutto bene
-                    resolve({
-                        code: 200,
-                        msg: `${user.username} created successfully`,
-                        username: `${user.id}`
-                    });
+                    //Caso errore interno
+                    err["code"] = 500;
+                    err["msg"] = `Internal Error`;
+                    reject(err);
+                }                   //Caso tutto bene
+                resolve({
+                    code: 200,
+                    msg: `${user.username} created successfully`,
+                    username: `${user.id}`
+                });
             });
     });
 };
@@ -64,7 +64,7 @@ exports.getUser = function (username, password) {
 
             if (!row)     //Non trovato
                 reject({ code: 404, msg: `${username} Not Found` });
-            
+
             const user =
             {
                 "id": row.username,
@@ -76,27 +76,27 @@ exports.getUser = function (username, password) {
             if (bcrypt.compareSync(password, row.password))
                 check = true;
 
-            if(!check)   //Password errata
-                reject({ code: 401, msg: `Invalid Password`});
+            if (!check)   //Password errata
+                reject({ code: 401, msg: `Invalid Password` });
 
 
-            resolve({code: 200, msg: "ok", res: {user, check}});
+            resolve({ code: 200, msg: "ok", res: { user, check } });
         });
     });
 };
 
 
-exports.getUserById = function(id) {
+exports.getUserById = function (id) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE id = ?';
         db.get(sql, [id], (err, row) => {
             if (err)    //Errore interno
                 reject(err);
             if (!row)   //Non trovato
-                reject({error: 'User not found.'});
-            const user = {"id": row.id, "username": row.email, "role": row.role}
+                reject({ error: 'User not found.' });
+            const user = { "id": row.id, "username": row.email, "role": row.role }
             resolve(user);
-            
+
         });
     });
 };

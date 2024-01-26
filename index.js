@@ -18,6 +18,7 @@ const vendorsRouter = require('./routes-API/vendors');
 const sessionsRouter = require('./routes-API/sessions');
 
 
+
 app.use(logger('short'));
 
 app.use(express.json());

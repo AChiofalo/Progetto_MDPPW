@@ -11,12 +11,12 @@ class Sanitizer{
     constructor(){}
 
         /**
-     * Restituisce nome in lowerCase
+     * Restituisce nome in upperCase
      * @param {String} username 
-     * @returns username in lowerCase
+     * @returns username in upperCase
      */
     sanitizeUsername = (username) => {
-        return username.toLowerCase();
+        return username.toUpperCase();
     }
 
     /**
@@ -37,6 +37,15 @@ class Sanitizer{
      */
     sanitizeEmail = (email) => {
         return email.toUpperCase();;
+    }
+
+    /**
+     * Restituisce role in upperCase
+     * @param {String} role 
+     * @returns role in upperCase
+     */
+    sanitizeRole = (role) => {
+        return role.toUpperCase();;
     }
 
 
