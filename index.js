@@ -33,7 +33,7 @@ app.use(session({
   // cross-site default policy is currently not recommended
   cookie: { 
     sameSite: 'lax',
-    magAge: 1000 * 60
+    magAge: 1000 * 30
   }
 }));
 
@@ -69,9 +69,6 @@ passport.deserializeUser(function(id, done) {
     done(null, user);
   }).catch();
 });
-
-
-
 
 
 app.use(passport.initialize());

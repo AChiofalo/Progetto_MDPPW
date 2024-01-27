@@ -8,6 +8,10 @@ const passport = require('passport');
 
 const normalizer = new Normalizer();  //Normalizzatore
 
+/**
+ * POST /sessions
+ * Login 
+ */
 router.post('/', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) { return next(err) }
@@ -19,7 +23,7 @@ router.post('/', function (req, res, next) {
     req.login(user, function (err) {
       if (err) { return next(err); }
       // req.user contains the authenticated user
-      return res.json(req.user.username);
+      return res.json(req.user);
     });
   })(req, res, next);
 });
@@ -33,28 +37,28 @@ router.delete('/current', function (req, res) {
   res.end();
 });
 
-// POST /users
-// Sign up
-router.post('/users', normalizer.normalizeCreateUser, async (req, res) => {
-  // create a user object from the signup form
-  // additional fields may be useful (name, role, etc.)
+//// POST /users
+//// Sign up
+//router.post('/users', normalizer.normalizeCreateUser, async (req, res) => {
+//  // create a user object from the signup form
+//  // additional fields may be useful (name, role, etc.)
+//
+//
+//  try {
+//    const user = {
+//      username: req.body.username,
+//      password: req.body.password,
+//      role: req.body.role
+//    };
+//    const result = await userDao.createUser(user);
+//    console.log(result.code);
+//    res.status(result.code).header('Location', `/users/${result.id}`).end()
+//  } catch (err) {
+//    res.status(err.code).json(err);
+//  }
+//
 
-
-  try {
-    const user = {
-      username: req.body.username,
-      password: req.body.password,
-      role: req.body.role
-    };
-    const result = await userDao.createUser(user);
-    console.log(result.code);
-    res.status(result.code).header('Location', `/users/${result.id}`).end()
-  } catch (err) {
-    res.status(err.code).json(err);
-  }
-
-
-});
+//});
 
 
 

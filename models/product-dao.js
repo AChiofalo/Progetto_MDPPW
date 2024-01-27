@@ -2,16 +2,6 @@
 
 const db = require('../db.js');
 
-/*
-  product (
-    "name" TEXT NOT NULL UNIQUE,
-    "vendor_username" INTEGER NOT NULL, 
-    "description" TEXT NOT NULL,
-    "img" TEXT NOT NULL,
-    "quantity_available" INTEGER NOT NULL, 
-    "price" INTEGER NOT NULL,
-);
-*/
 
 /**
  * 
@@ -20,10 +10,10 @@ const db = require('../db.js');
  */
 exports.createProduct = function (product) {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO product(name, vendor_username, description, quantity_available, price) VALUES (?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO product(name, vendor_id, description, img, squantity_available, price) VALUES (?, ?, ?, ?, ?, ?)';
     db.run(sql, 
       [product.name, 
-       product.vendor_username, 
+       product.vendor_id, 
        product.description, 
        product.img, 
        product.quantity_available,
@@ -61,8 +51,9 @@ exports.searchProductsByName = function (name) {
       } else {
         const products = rows.map((row) => (
           {
-            "name": row.username,
-            "vendor_username": row.vendor_username,
+            "id": row.id,
+            "name": row.name,
+            "vendor_id": row.vendor_id,
             "description": row.description,
             "img": row.img,
             "quantity_available": row.quantity_available,
@@ -88,13 +79,14 @@ exports.getProduct = function (name) {
         reject(err);
       }
       if (!row) {
-        reject({ code: 404, msg: `${name} Not Found` });
+        reject({ code: 404, msg: `product ${name} Not Found` });
       }
       else {
         const product =
         {
-          "name": row.username,
-          "vendor_username": row.vendor_username,
+          "id": row.id,
+          "name": row.name,
+          "vendor_id": row.vendor_id,
           "description": row.description,
           "img": row.img,
           "quantity_available": row.quantity_available,
@@ -109,18 +101,19 @@ exports.getProduct = function (name) {
 /**
  * 
  * @param {String} name 
+ * @param {Number} id_vendor 
  * @returns GONE o error
  */
-exports.deleteProduct = function (name) {
+exports.deleteProduct = function (name, id_vendor) {
   return new Promise((resolve, reject) => {
-    const sql = "DELETE FROM product WHERE name LIKE ?";
-    db.run(sql, [name], function (err) {
+    const sql = "DELETE FROM product WHERE name LIKE ? AND id_vendor = ?";
+    db.run(sql, [name, id_vendor], function (err) {
       if (err) {
         err["code"] = 500;
         reject(err);
       }
       else if (!this.changes)
-        reject({ code: 404, msg: `${name} not present` })
+        reject({ code: 404, msg: `product ${name} Not Found` })
       else
         resolve({ code: 200, msg: `${name} deleted successfully` });
     });
@@ -135,6 +128,8 @@ exports.updatePrice = function (name, price) {
         err["code"] = 500;
         reject(err);
       }
+      else if (!this.changes)
+        reject({ code: 404, msg: `product ${name} Not Found` })
       else
         resolve({ code: 200, msg: `${name} price updated successfully` });
     });
@@ -149,6 +144,8 @@ exports.updateQuantity = function (name, quantity) {
         err["code"] = 500;
         reject(err);
       }
+      else if (!this.changes)
+        reject({ code: 404, msg: `product ${name} Not Found` })
       else
         resolve({ code: 200, msg: `${name} quantity updated successfully` });
     });

@@ -37,9 +37,6 @@ class Normalizer{
             this.validator.validateName(req.body.name);
             req.body.name = this.sanitizer.sanitizeName(req.body.name);
 
-            this.validator.validateUsername(req.body.vendor_username);
-            req.body.vendor_username = this.sanitizer.sanitizeName(req.body.vendor_username);
-
             this.validator.validateQuantity(req.body.price);
             this.validator.validateQuantity(req.body.quantity_available);
 

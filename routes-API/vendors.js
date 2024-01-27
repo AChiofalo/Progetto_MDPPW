@@ -21,7 +21,7 @@ router.get('/:name', (req, res) => {
 });
 
 /**
- * Restituisce tutti i vendor, se query presente quelli che iniziano con name specificato
+ * Restituisce tutti i vendor, se query presente quelli che iniziano con name specificato: /?name=<val>
  */
 router.get('/', (req, res) => {
   dao.searchVendorsByName(req.query.name ? req.query.name : "")
@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
 });
 
 /**
+ * SIGN UP per Vendors
  * Inserisce un nuovo vendor ed user usando req.body
  */
 router.post('/', normalizer.normalizeCreateVendor, async (req, res) => {
@@ -75,7 +76,7 @@ router.delete('/:id', async (req,res) => {
  */
 
 /**
- * Modifica il valore di wallet legato ad user.id sommandovi change
+ * Modifica il valore di wallet legato ad req.user.id sommandovi change
  */
 router.patch('/wallet', authSupp.isVendor, normalizer.normalizeUpdateWallet, async (req, res) => {
 

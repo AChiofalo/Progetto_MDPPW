@@ -5,6 +5,7 @@ const dao = require('../models/product-dao.js');
 const express = require('express');
 const router = express.Router();
 
+const authSupp = require('../auth-support.js');
 const normalizer = new Normalizer();  //Normalizzatore
 
 /**
@@ -28,12 +29,12 @@ router.get('/', (req, res) => {
 /**
  * Inserisce un nuovo product usando req.body
  */
-router.post('/', normalizer.normalizeCreateProduct, (req, res) => {
+router.post('/', authSupp.isVendor, normalizer.normalizeCreateProduct, (req, res) => {
 
 
   const product = {
     "name": req.body.name,
-    "vendor_username": req.body.vendor_username,
+    "vendor_id": req.user.id,
     "description": req.body.description,
     "img": `./assets/products-img/${req.body.name}`,
     "quantity_available": req.body.quantity_available,
@@ -46,10 +47,10 @@ router.post('/', normalizer.normalizeCreateProduct, (req, res) => {
 });
 
 /**
- * Cancella la risorsa product se presente
+ * Cancella la risorsa product se presente associata al venditore req.user.id
  */
-router.delete('/:name', (req, res) => {
-  dao.deleteProduct(req.params.name)
+router.delete('/:name', authSupp.isVendor ,(req, res) => {
+  dao.deleteProduct(req.params.name, req.user.id)
     .then((result) => res.status(result.code).json(result).end())
     .catch((err) => res.status(err.code).json(err));
 });
