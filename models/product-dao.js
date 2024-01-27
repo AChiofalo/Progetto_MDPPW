@@ -10,7 +10,7 @@ const db = require('../db.js');
  */
 exports.createProduct = function (product) {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO product(name, vendor_id, description, img, squantity_available, price) VALUES (?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO product(name, vendor_id, description, img, quantity_available, price) VALUES (?, ?, ?, ?, ?, ?)';
     db.run(sql, 
       [product.name, 
        product.vendor_id, 
@@ -104,10 +104,10 @@ exports.getProduct = function (name) {
  * @param {Number} id_vendor 
  * @returns GONE o error
  */
-exports.deleteProduct = function (name, id_vendor) {
+exports.deleteProduct = function (name, vendor_id) {
   return new Promise((resolve, reject) => {
-    const sql = "DELETE FROM product WHERE name LIKE ? AND id_vendor = ?";
-    db.run(sql, [name, id_vendor], function (err) {
+    const sql = "DELETE FROM product WHERE (name LIKE ? AND vendor_id = ?)";
+    db.run(sql, [name, vendor_id], function (err) {
       if (err) {
         err["code"] = 500;
         reject(err);
@@ -136,10 +136,10 @@ exports.updatePrice = function (name, price) {
   });
 };
 
-exports.updateQuantity = function (name, quantity) {
+exports.updateQuantity = function (name, quantity, vendor_id) {
   return new Promise((resolve, reject) => {
-    const sql = "UPDATE product SET quantity_available = ? WHERE name LIKE ?"
-    db.run(sql, [quantity, name], function (err) {
+    const sql = "UPDATE product SET quantity_available = ? WHERE name LIKE ? AND vendor_id = ?"
+    db.run(sql, [quantity, name, vendor_id], function (err) {
       if (err) {
         err["code"] = 500;
         reject(err);

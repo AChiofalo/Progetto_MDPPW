@@ -100,7 +100,7 @@ exports.getUserById = function (id) {
             if (!row)   //Non trovato
                 reject({ error: 'User not found.' });
             else {
-                const user = { "id": row.id, "username": row.email, "role": row.role }
+                const user = { "id": row.id, "username": row.username, "role": row.role }
                 resolve(user);
             }
         });

@@ -4,7 +4,8 @@
 class Checker{
     constructor(){
         this.createVendorKeys = ["username","password","name","description"];
-        this.createProductKeys = ["name",,"description","quantity_available","price"];
+        this.createCustomerKeys  = ["username","password","first_name","last_name"];
+        this.createProductKeys = ["name","description","quantity_available","price"];
         this.updateQuantityKeys = ["change"];
         this.createUserKeys = ["username","password","role"]; //Non usata al momento, creazione via vendor e customer
         this.msg = "wrong keys!";
@@ -22,6 +23,12 @@ class Checker{
             throw err;
     }
 
+    checkCreateCustomer = body => {
+        const err = baseCheck(body, this.createCustomerKeys, this.msg)
+        if(err)
+            throw err;
+    }
+
     checkUpdateQuantity = body => {
         const err = baseCheck(body, this.updateQuantityKeys, this.msg)
         if(err)
@@ -33,6 +40,8 @@ class Checker{
         if(err)
             throw err;
     }
+
+    
 }
 
 /**

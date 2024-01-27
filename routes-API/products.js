@@ -58,7 +58,7 @@ router.delete('/:name', authSupp.isVendor ,(req, res) => {
 /**
  * Cambia qantità in base al change
  */
-router.patch('/:name/quantity', normalizer.normalizeUpdateWallet, async (req, res) => {
+router.patch('/:name/quantity', authSupp.isVendor, normalizer.normalizeUpdateQuantity, async (req, res) => {
 
   try {
     const resGet = await dao.getProduct(req.params.name);
@@ -70,7 +70,7 @@ router.patch('/:name/quantity', normalizer.normalizeUpdateWallet, async (req, re
       throw err;
     }
 
-    const result = await dao.updateQuantity(req.params.name, newQuantity);
+    const result = await dao.updateQuantity(req.params.name, newQuantity, req.user.id);
     res.status(result.code).json(result).end();
   }
   catch (err) {
@@ -81,10 +81,5 @@ router.patch('/:name/quantity', normalizer.normalizeUpdateWallet, async (req, re
 
 });
 
-
-//TODO
-/*i DAO GET possono tranquillamente restituire l'intera risorsa...sta poi ad una funzione 
-  secondaria rimuovere informazioni sensibili
-*/
 
 module.exports = router;

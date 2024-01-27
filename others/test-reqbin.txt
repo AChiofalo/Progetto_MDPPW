@@ -1,0 +1,72 @@
+POST http://localhost:3000/api/vendors
+{
+    "username": "test1",
+    "password": "123",
+    "name": "Da Dino",
+    "description":  "Ombrelli per tutti"
+}
+
+DELETE http://localhost:3000/api/vendors/Da Dino
+
+GET http://localhost:3000/api/vendors
+
+GET http://localhost:3000/api/vendors/?name=da 
+
+PATCH http://localhost:3000/api/vendors/da dino/wallet
+{
+	"change":10
+}
+
+POST http://localhost:3000/api/sessions
+{
+	"username": "test1",
+  	"password": "123"
+}
+
+PATCH http://localhost:3000/api/vendors/wallet
+{
+	"change":10
+}
+
+DELETE http://localhost:3000/api/sessions/current
+
+---------------
+
+POST http://localhost:3000/api/products
+{
+    "name": "ombrello rosso",
+    "description": "comodo",
+    "quantity_available": 10,
+    "price": 1000
+}
+
+
+PATCH http://localhost:3000/api/products/ombrello rosso/quantity
+{
+    "change": 10
+}
+
+DELETE http://localhost:3000/api/products/ombrello rosso
+
+------
+
+POST http://localhost:3000/api/customers
+{
+    "username": "test2",
+    "password": "123",
+    "first_name": "Marco",
+    "last_name":  "Rossi"
+}
+
+POST http://localhost:3000/api/sessions
+{
+    "username": "test2",
+    "password": "123"
+}
+
+PATCH http://localhost:3000/api/customers/wallet
+{
+    "change": 10
+
+}
+

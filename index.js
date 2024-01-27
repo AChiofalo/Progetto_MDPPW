@@ -15,6 +15,7 @@ const app = express();
 
 const productsRouter = require('./routes-API/products');
 const vendorsRouter = require('./routes-API/vendors');
+const customersRouter = require('./routes-API/customers');
 const sessionsRouter = require('./routes-API/sessions');
 
 const userDao = require('./models/user-dao');
@@ -33,7 +34,7 @@ app.use(session({
   // cross-site default policy is currently not recommended
   cookie: { 
     sameSite: 'lax',
-    magAge: 1000 * 30
+    magAge: 1000 * 60 * 10 //10 minuti
   }
 }));
 
@@ -79,6 +80,7 @@ app.use(passport.session());
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/vendors', vendorsRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/customers', customersRouter);
 //-------
 //ROUTES BASE, page.js agisce prima
 app.get('*', (req,res)=> {     

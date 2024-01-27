@@ -88,7 +88,7 @@ router.patch('/wallet', authSupp.isVendor, normalizer.normalizeUpdateWallet, asy
       err.msg = "No credit";
       err.code = "400";
       throw err;
-    }
+    } 
 
     const result = await dao.updateWallet(resGet.vendor.name, newWallet);
     res.status(result.code).json(result).end();
@@ -96,9 +96,6 @@ router.patch('/wallet', authSupp.isVendor, normalizer.normalizeUpdateWallet, asy
   catch (err) {
     res.status(err.code).json(err).end();
   }
-
-
-
 });
 
 

@@ -59,23 +59,35 @@ class Normalizer{
         }
     }
 
-    normalizeCustomer = (req, res, next) => {
+    normalizeUpdateQuantity = (req, res, next) => {
+        try {
+            this.checker.checkUpdateQuantity(req.body);
+            this.validator.validateQuantity(req.body.change);
+
+            return next();
+            
+        } catch(err){
+            res.status(400).json({"code" : 400, "msg" : err.message});
+        }
+    }
+
+    normalizeCreateCustomer = (req, res, next) => {
         try {
 
+            this.checker.checkCreateCustomer(req.body);
             this.validator.validateUsername(req.body.username);
+            this.validator.validatePassword(req.body.password);
             this.validator.validateName(req.body.first_name);
             this.validator.validateName(req.body.last_name);
-            this.validator.validatePrice(req.body.wallet);
 
 
             req.body.first_name = this.sanitizer.sanitizeName(req.body.first_name);
             req.body.last_name = this.sanitizer.sanitizeName(req.body.last_name);
-            req.body.wallet = this.sanitizer.sanitizePrice(req.body.wallet);
 
             return next();
 
         } catch(err){
-            res.status(400).json({"code" : 400, "msg" : err});
+            res.status(400).json({"code" : 400, "msg" : err.message});
         }
     }
 
