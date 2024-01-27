@@ -17,6 +17,7 @@ const productsRouter = require('./routes-API/products');
 const vendorsRouter = require('./routes-API/vendors');
 const sessionsRouter = require('./routes-API/sessions');
 
+const userDao = require('./models/user-dao');
 
 
 app.use(logger('short'));
@@ -37,26 +38,17 @@ app.use(session({
 }));
 
 app.use(express.static('public'));
-//ROUTES API
-app.use('/api/sessions', sessionsRouter);
-app.use('/api/vendors', vendorsRouter);
-app.use('/api/products', productsRouter);
-//-------
-//ROUTES BASE, page.js agisce prima
-app.get('*', (req,res)=> {     
-    res.sendFile(path.resolve(__dirname,'public', 'index.html'));
-});
 
 
 const isVendor = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.role == 'vendor'){ //req.user è impostato da Passport
+  if(req.isAuthenticated() && req.user.role == 'VENDOR'){ //req.user è impostato da Passport
       return next();
   }
   return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
 }
 
 const isCustomer = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.role == 'customer'){
+  if(req.isAuthenticated() && req.user.role == 'CUSTOMER'){
       return next();
   }
   return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
@@ -87,9 +79,10 @@ passport.serializeUser(function(user, done) {
 
 //Aggiunge al req la chiave user, usata successivamente
 passport.deserializeUser(function(id, done) {
+
   userDao.getUserById(id).then(user => {
     done(null, user);
-  });
+  }).catch();
 });
 
 
@@ -98,7 +91,18 @@ passport.deserializeUser(function(id, done) {
 
 app.use(passport.initialize());
 app.use(passport.session());
- 
 
+
+//ROUTES API
+app.use('/api/sessions', sessionsRouter);
+app.use('/api/vendors', vendorsRouter);
+app.use('/api/products', productsRouter);
+//-------
+//ROUTES BASE, page.js agisce prima
+app.get('*', (req,res)=> {     
+    res.sendFile(path.resolve(__dirname,'public', 'index.html'));
+});
+
+ 
 const port = 3000; 
 app.listen(port, () => {`Listening on localhost:${port}`});

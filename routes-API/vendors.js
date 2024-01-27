@@ -2,6 +2,7 @@
 const Normalizer = require('../normalize/normalizer.js');
 
 const dao = require('../models/vendor-dao.js');
+const userDao = require('../models/user-dao.js');
 const express = require('express');
 const router = express.Router();
 
@@ -10,63 +11,74 @@ const normalizer = new Normalizer();  //Normalizzatore
 
 
 /**
- * Restituisce la risorsa vendor tramite req.params.username
+ * Restituisce la risorsa vendor tramite req.params.name
  */
-router.get('/:username', (req,res) => {
-  dao.getVendor(req.params.username)
+router.get('/:name', (req,res) => {
+  dao.getVendor(req.params.name)
   .then((result) => res.status(result.code).json(result).end())
   .catch((err) => res.status(err.code).json(err));
 });
 
 /**
- * Restituisce tutti i vendor, se query presente quelli che iniziano con username specificato
+ * Restituisce tutti i vendor, se query presente quelli che iniziano con name specificato
  */
 router.get('/', (req,res) => {
-  dao.searchVendorsByUsername(req.query.username?req.query.username:"")
+  dao.searchVendorsByName(req.query.name?req.query.name:"")
   .then((result) => res.status(result.code).json(result).end())
   .catch((err) => res.status(err.code).json(err));
 });
 
 /**
- * Inserisce un nuovo vendor usando req.body
+ * Inserisce un nuovo vendor ed user usando req.body
  */
-router.post('/', normalizer.normalizeCreateVendor, (req, res) => {
+router.post('/', normalizer.normalizeCreateVendor, async (req, res) => {
    
-
-  const vendor = {
+  const user = {
     "username": req.body.username,
     "password": req.body.password,
+    "role": "VENDOR"
+  }
+
+  const vendor = {
+    "name": req.body.name,
     "description": req.body.description,
-    "img": `./assets/vendors-img/${req.body.username}`,
+    "img": `./assets/vendors-img/${req.body.name}`,
     "wallet": 0
   }
 
-  dao.createVendor(vendor)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+  try{
+    const userRes = await userDao.createUser(user);
+    vendor["id"] = userRes.id;
+    const vendorRes = await dao.createVendor(vendor); //user potrebbe essere creato al contrario di vendor!
+    res.status(vendorRes.code).json(vendorRes)
+  }catch(err){
+    res.status(err.code).json(err).end();
+  }
+
 });
 
 /**
  * Cancella la risorsa vendor se presente
  */
-router.delete('/:username', (req,res) => {
-  dao.deleteVendor(req.params.username)
-  .then((result) => res.status(result.code).json(result).end())
-  .catch((err) => res.status(err.code).json(err));
+router.delete('/:id', async (req,res) => {
+
+  try{
+    const vendorRes = await dao.deleteVendor(req.params.id);
+    const userRes = await userDao.deleteUser(req.params.id);
+    res.status(userRes.code).json(userRes).end()
+  } catch(err){
+    res.status(err.code).json(err);
+  }
+  
 });
 
 /**
  * Al momento sostiuisce unicamente valore del wallet via "change"
  */
-router.patch('/:username/wallet', normalizer.normalizeUpdateWallet, async (req,res) => {
+router.patch('/:name/wallet', normalizer.normalizeUpdateWallet, async (req,res) => {
 
-  /*
-    TRANSAZIONE...
-    ...
-    ...
-  */
 try {
-  const resGet = await dao.getVendor(req.params.username);
+  const resGet = await dao.getVendor(req.params.name);
   const newWallet = resGet.vendor.wallet + req.body.change;
   if(newWallet<0){
     const err = new Error();
@@ -75,7 +87,7 @@ try {
     throw err;
   }
 
-  const result = await dao.updateWallet(req.params.username, newWallet);
+  const result = await dao.updateWallet(req.params.name, newWallet);
   res.status(result.code).json(result).end();
 }
 catch(err){
@@ -87,9 +99,5 @@ catch(err){
 });
 
 
-//TODO
-/*i DAO GET possono tranquillamente restituire l'intera risorsa...sta poi ad una funzione 
-  secondaria rimuovere informazioni sensibili
-*/
 
 module.exports = router;

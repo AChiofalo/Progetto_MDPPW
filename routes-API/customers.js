@@ -12,7 +12,7 @@ router.post('/', normalizer.normalizeCustomer,(req, res) => {
       const user = {
         "username": req.body.username,
         "password": req.body.password,
-        "role": ' CUSTOMER'
+        "role": 'CUSTOMER'
       };
       const customer = {
       "user": user,

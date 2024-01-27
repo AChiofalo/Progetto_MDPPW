@@ -32,17 +32,21 @@ exports.createUser = function (user) {
                         err["code"] = 400;
                         err["msg"] = `${user.username} already present`;
                         reject(err);
-                    }
+                    } 
+                    else {
                     //Caso errore interno
                     err["code"] = 500;
                     err["msg"] = `Internal Error`;
                     reject(err);
-                }                   //Caso tutto bene
+                    }
+                }
+                else {               //Caso tutto bene
                 resolve({
                     code: 200,
                     msg: `${user.username} created successfully`,
                     id: `${this.lastID}`
                 });
+                } 
             });
     });
 };
@@ -64,27 +68,28 @@ exports.getUser = function (username, password) {
 
             if (!row)     //Non trovato
                 reject({ code: 404, msg: `${username} Not Found` });
+            else{
+                const user =
+                {
+                "id": row.id,
+                "username": row.username,
+                "role": row.role
+                };
+                let check = false;
 
-            const user =
-            {
-                "id": row.username,
-                "username": row.password,
-                "role": row.img
-            };
-            let check = false;
+                if (bcrypt.compareSync(password, row.password))
+                    check = true;
 
-            if (bcrypt.compareSync(password, row.password))
-                check = true;
+                if (!check)   //Password errata
+                    reject({ code: 401, msg: `Invalid Password` });
 
-            if (!check)   //Password errata
-                reject({ code: 401, msg: `Invalid Password` });
+                resolve({ user, check });
 
-
-            resolve({ code: 200, msg: "ok", res: { user, check } });
+            }
+            
         });
     });
 };
-
 
 exports.getUserById = function (id) {
     return new Promise((resolve, reject) => {
@@ -94,9 +99,24 @@ exports.getUserById = function (id) {
                 reject(err);
             if (!row)   //Non trovato
                 reject({ error: 'User not found.' });
-            const user = { "id": row.id, "username": row.email, "role": row.role }
-            resolve(user);
+            else {
+                const user = { "id": row.id, "username": row.email, "role": row.role }
+                resolve(user);
+            }
+        });
+    });
+};
 
+exports.deleteUser = function (id) {
+    return new Promise((resolve, reject) => {
+        const sql = 'DELETE FROM user WHERE id = ?';
+        db.get(sql, [id], (err) => {
+            if (err) {
+                err["code"] = 500;
+                reject(err);
+              }
+            else
+                resolve({ code: 200, id: this.lastID, msg: `${id} deleted successfully` });
         });
     });
 };

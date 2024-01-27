@@ -3,10 +3,10 @@
  */
 class Checker{
     constructor(){
-        this.createVendorKeys = ["username","password","description"];
+        this.createVendorKeys = ["username","password","name","description"];
         this.createProductKeys = ["name","vendor_username","description","quantity_available","price"];
         this.updateQuantityKeys = ["change"];
-        this.createUserKeys = ["username","password","role"];
+        this.createUserKeys = ["username","password","role"]; //Non usata al momento, creazione via vendor e customer
         this.msg = "wrong keys!";
     }
 

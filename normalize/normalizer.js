@@ -15,9 +15,13 @@ class Normalizer{
 
     normalizeCreateVendor = (req, res, next) => {
         try {
-            this.checker.checkCreateUser(req.body);
+            this.checker.checkCreateVendor(req.body);
             this.validator.validateUsername(req.body.username);
+            this.validator.validatePassword(req.body.password);
+            this.validator.validateName(req.body.name);
+
             req.body.username = this.sanitizer.sanitizeUsername(req.body.username);
+            req.body.name = this.sanitizer.sanitizeName(req.body.name);
 
             return next();
             

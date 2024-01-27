@@ -26,7 +26,7 @@ class Sanitizer{
      */
     sanitizeName = (name) => {
         let res = name.toUpperCase();;
-        res = res.replace(/\s/g, ''); //Rimpiazza tutti gli spazi bianchi col secondo parametro, g indica globalmente
+        //res = res.replace(/\s/g, '_'); //Rimpiazza tutti gli spazi bianchi col secondo parametro, g indica globalmente
         return res;
     }
 

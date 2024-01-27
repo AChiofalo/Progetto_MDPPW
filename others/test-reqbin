@@ -1,0 +1,24 @@
+POST http://localhost:3000/api/vendors
+{
+    "username": "test1",
+    "password": "123",
+    "name": "Da Dino",
+    "description":  "Ombrelli per tutti"
+}
+
+DELETE http://localhost:3000/api/vendors/Da Dino
+
+GET http://localhost:3000/api/vendors
+
+GET http://localhost:3000/api/vendors/?name=da 
+
+PATCH http://localhost:3000/api/vendors/da dino/wallet
+{
+	"change":10
+}
+
+POST http://localhost:3000/api/sessions
+{
+	"username": "test1",
+  	"password": "123"
+}

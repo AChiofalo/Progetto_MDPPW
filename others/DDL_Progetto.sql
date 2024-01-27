@@ -8,7 +8,7 @@ CREATE TABLE user (
 
 CREATE TABLE vendor (
     "id" INTEGER NOT NULL UNIQUE,
-    "username" TEXT NOT NULL UNIQUE ,
+    "name" TEXT NOT NULL UNIQUE ,
     "description" TEXT NOT NULL,
     "img" TEXT NOT NULL,
     "wallet" INTEGER NOT NULL,
@@ -18,7 +18,6 @@ CREATE TABLE vendor (
 
 CREATE TABLE customer (
     "id" INTEGER NOT NULL UNIQUE,
-    "username" TEXT NOT NULL UNIQUE,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
     "wallet" INTEGER NOT NULL,
