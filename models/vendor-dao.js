@@ -1,7 +1,6 @@
 'use strict';
 
 const db = require('../db.js');
-const bcrypt = require('bcrypt');
 
 /*
   vendor (
@@ -84,8 +83,39 @@ exports.getVendor = function (name) {
       else {
         const vendor =
         {
+          "id": row.id,
           "name": row.name,
-          "password": row.password,
+          "description": row.description,
+          "img": row.img,
+          "wallet": row.wallet
+        }
+        resolve({ code: 200, msg: "ok", vendor: vendor });
+      }
+    });
+  });
+};
+
+/**
+ * 
+ * @param {Number} id 
+ * @returns oggetto vendor o errore
+ */
+exports.getVendorById = function (id) {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM vendor WHERE id LIKE ?;"
+    db.get(sql, [id], function (err, row) {
+      if (err) {
+        err["code"] = 500;
+        reject(err);
+      }
+      if (!row) {
+        reject({ code: 404, msg: `${id} Not Found` });
+      }
+      else {
+        const vendor =
+        {
+          "id": row.id,
+          "name": row.name,
           "description": row.description,
           "img": row.img,
           "wallet": row.wallet

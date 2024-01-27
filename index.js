@@ -40,19 +40,6 @@ app.use(session({
 app.use(express.static('public'));
 
 
-const isVendor = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.role == 'VENDOR'){ //req.user è impostato da Passport
-      return next();
-  }
-  return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
-}
-
-const isCustomer = (req, res, next) => {
-  if(req.isAuthenticated() && req.user.role == 'CUSTOMER'){
-      return next();
-  }
-  return res.status(401).json({"code" : 401, "msg" : "not authenticated"});
-}
 
 const verify = async (username, password, done) => {
   try{
@@ -70,8 +57,6 @@ const verify = async (username, password, done) => {
 
 passport.use(new LocalStrategy(verify));
  
-
-
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

@@ -22,3 +22,8 @@ POST http://localhost:3000/api/sessions
 	"username": "test1",
   	"password": "123"
 }
+
+PATCH http://localhost:3000/api/vendors/wallet
+{
+	"change":10
+}
