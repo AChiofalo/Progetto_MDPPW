@@ -5,10 +5,10 @@ const express = require('express'); //Server
 const path = require('path');
 
 
-const passport = require('passport'); // auth middleware
+const passport =  require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session');
-//const FileStore = require('session-file-store')(session); 
+const FileStore = require('session-file-store')(session); 
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(logger('short'));
 app.use(express.json());
 
 app.use(session({
-  //store: new FileStore(), // by default, Passport uses a MemoryStore to keep track of the sessions - if you want to use this, launch nodemon with the option: --ignore sessions/
+  store: new FileStore(), // by default, Passport uses a MemoryStore to keep track of the sessions - if you want to use this, launch nodemon with the option: --ignore sessions/
   secret: 'a secret sentence not to share with anybody and anywhere, used to sign the session ID cookie',
   resave: false,
   saveUninitialized: true,
@@ -48,11 +48,10 @@ const verify = async (username, password, done) => {
     return done(null,res.user); //Username e password corretti
 
   }catch(err){
-    if(err.code === 404) return done(null,false); //Username errato
+    if(err.code == 404) return done(null,false, {"msg": "Username errato"}); //Username errato
 
-    if(err.code === 401) return done(null,false); //Password errata
+    if(err.code == 401) return done(null,false, {"msg": "Password errata"}); //Password errata
 
-    return done(err); //Errore generico
   }
 }
 
@@ -68,7 +67,7 @@ passport.deserializeUser(function(id, done) {
 
   userDao.getUserById(id).then(user => {
     done(null, user);
-  }).catch();
+  })
 });
 
 

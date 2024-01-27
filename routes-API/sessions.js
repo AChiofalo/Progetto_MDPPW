@@ -16,7 +16,6 @@ router.post('/', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) { return next(err) }
     if (!user) {
-      // display wrong login  messages
       return res.status(401).json(info);
     }
     // success, perform the login
