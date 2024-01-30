@@ -107,7 +107,7 @@ class Api {
         });
         if(response.ok) {
             const res = await response.json()
-            return res.username;
+            return res;
         }
         else
             try {

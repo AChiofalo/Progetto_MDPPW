@@ -28,14 +28,33 @@ class App {
     constructor(main_element, navLinks_element){
         this.main_element = main_element;
         this.navLinks_element = navLinks_element;
-        this.logoutLink = document.querySelector("#logout_link")
     
+        //REGISTRAZIONI
+        page('/register', () => {   
+            this.renderAll("sign up",()=>showRegister("customer"));
 
+            document.getElementById("register_form").addEventListener('submit',  this.registerCustomer);
+        });
+        page('/join', () => {
+            this.renderAll("join us",()=>showRegister("vendor"));
 
+            document.getElementById("register_form").addEventListener('submit',  this.registerVendor);
+        });
+
+        //LOGIN
+        page('/login', () => {
+            this.renderAll("login", showLogin);
+
+            document.getElementById("login_form").addEventListener('submit',  this.login);
+        });
+
+        //LOGOUT
+        page('/logout', this.logout);
+
+        //CATALOGHI
         page('/products', () => {
             this.renderAll("products", showProducts);
         });
-
         page('/products/:id', async (ctx) => {
             try {
                 const product = await Api.getProduct(ctx.params.id);
@@ -45,46 +64,24 @@ class App {
             }
 
         });
-
         page('/vendors', () => {    
             this.renderAll("vendors", showVendors);
-        })
+        });
 
+        //RELATIVI A RUOLO
         page('/cart', () => {
             this.renderAll("cart", showCart);
         });
-
-
-
-        page('/login', () => {
-            this.renderAll("login", showLogin);
-
-            document.getElementById("login_form").addEventListener('submit',  this.login);
+        page('/myproducts',()=>{
         });
 
-        page('/register', () => {   
-            this.renderAll("sign up",()=>showRegister("customer"));
-
-            document.getElementById("register_form").addEventListener('submit',  this.registerCustomer);
-        });
-
-        page('/join', () => {
-            this.renderAll("join us",()=>showRegister("vendor"));
-
-            document.getElementById("register_form").addEventListener('submit',  this.registerVendor);
-        });
-
-        page('/logout', this.logout)
-
+        //GENERICI
         page('/', () => {   
             
             this.renderAll("none", showHomepage);
 
         });
-
-        page('/homepage', '/');
-
-        page('*', '/');
+        page('/homepage', '/'); //Rimuove Homepage? Non so cosa metterci...
 
         page();
         
@@ -95,7 +92,9 @@ class App {
      */
     logout = async () => {
         await Api.doLogout();
-        localStorage.removeItem('isLoggedIn')
+        localStorage.removeItem('username');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
         page.redirect('/homepage');
     }
 
@@ -108,8 +107,10 @@ class App {
             try {
                 const user = await Api.doLogin(form.username.value, form.password.value);
 
-                alertMessage.innerHTML = showAlert('success',`Welcome ${user}!`)
-                localStorage.setItem('isLoggedIn', true); //!!!
+                alertMessage.innerHTML = showAlert('success',`Welcome ${user.username}!`)
+                localStorage.setItem('username', user.username); //!!!
+                localStorage.setItem('id', user.id);
+                localStorage.setItem('role', user.role.toLowerCase());
                 setTimeout(()=>{
                     alertMessage.innerHTML = "";
                 }, 5000);   
@@ -192,17 +193,18 @@ class App {
      * @param {Function} showPage - Funzione per mostrare la pagina
      */
     renderAll(activePage, showPage){
-        this.renderNavBar(activePage);
+        this.renderNavBar(activePage, localStorage.getItem("role"));
         this.renderMain(showPage);
     }
 
     /**
      * 
      * @param {String} active - Nome della pagina attiva al momento
+     *@param {String} role -  vendor o customer
      */
-    renderNavBar(active){
+    renderNavBar(active, role){
         this.navLinks_element.innerHTML = '';
-        this.navLinks_element.insertAdjacentHTML("beforeend", showNavLinks(active));
+        this.navLinks_element.insertAdjacentHTML("beforeend", showNavLinks(active, role));
     }
 
     /**
