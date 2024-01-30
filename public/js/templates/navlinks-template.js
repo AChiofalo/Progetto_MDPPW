@@ -21,7 +21,11 @@ function showNavLinks(active){
 }
                 
 
-
+/**
+ * 
+ * @param {String} active - link attivo
+ * @returns 
+ */
 function showCatalogLinks(active){
 
     return `<a class="nav-link ${active==='products' ? 'active' : ''}" ${active==='products' ? 'aria-current="page"' : ''} href="/products">Prodotti</a> 
@@ -31,12 +35,13 @@ function showCatalogLinks(active){
 function showSessionLinks(active){
 
     let res = "";
-
-    if(sessionStorage.getItem("isLoggedIn"))
-        res =  `<a class="nav-link" href="/logout">Logout</a>`
+               
+    if(localStorage.getItem("isLoggedIn"))
+        res =  `<a class="nav-link" href="/logout" id="logout_link">Logout</a>`
     else
         res = `<a class="nav-link ${active==='login' ? 'active' : ''}" ${active==='login' ? 'aria-current="page"' : ''} href="/login">Login</a>
-            <a class="nav-link ${active==='sign up' ? 'active' : ''}" ${active==='sign up' ? 'aria-current="page"' : ''} href="/register">Sign Up</a>`     
+            <a class="nav-link ${active==='sign up' ? 'active' : ''}" ${active==='sign up' ? 'aria-current="page"' : ''} href="/register">Sign Up</a>
+            <a class="nav-link ${active==='join us' ? 'active' : ''}" ${active==='join us' ? 'aria-current="page"' : ''} href="/join">Join Us</a>`     
     return res;
  }
 

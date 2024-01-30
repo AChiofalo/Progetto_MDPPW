@@ -1,2 +1,4 @@
 * User può venire creato senza vendor qualora vendor.name esista già (RIMUOVERE USER O CONTROLLARE PRIMA)
 
+* Quando si richiede la SPA ed il server è avviato tramite nodemon si verificano problemi di routing:
+    il client non riesce a recuperare correttamente le risorse dalla cartella public

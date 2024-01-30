@@ -1,23 +1,39 @@
 "use strict";
 
-function showRegister(){
+function showRegister(role){
     return `
-    <form method="POST" action="" class="col-md-6 mx-auto">  
-    <label class="form-label my-2" for="email_input">Indirizzo Email</label> 
-    <input class="form-control mb-2" id="email_input" type="email" placeholder="esempio@es.com" required>
+    <form method="POST" action="" class="col-md-6 mx-auto" id="register_form">  
+    <label class="form-label my-2" for="username">Username</label> 
+    <input class="form-control mb-2" id="username" type="text" placeholder="Marioo7" required>
+    
+    <label class="form-label my-2" for="password">Password</label> 
+    <input class="form-control mb-2" id="password" type="password" required>
 
-    <label class="form-label my-2" for="email_confirm_input">Conferma Email</label> 
-    <input class="form-control mb-2" id="email_confirm_input" type="email" required>
+    ${role==='vendor'?showVendor():showCustomer()}
 
 
-    <label class="form-label my-2" for="password_input">Password</label> 
-    <input class="form-control mb-2" id="password_input" type="password" required>
 
-    <label class="form-label my-2" for="password_confirm_input">Conferma Password</label> 
-    <input class="form-control mb-2" id="password_confirm_input" type="password" required>
 
     <button id="register_submit" class="btn btn-outline-primary my-2" type="submit">Register</button>
 </form>`
+}
+
+function showVendor(){
+    return `<label class="form-label my-2" for="name">Name</label> 
+    <input class="form-control mb-2" id="name" type="text" required>
+
+    <label class="form-label my-2" for="description">Description</label> 
+    <input class="form-control mb-2" id="description" type="text" required>`
+
+}
+
+function showCustomer(){
+    return `<label class="form-label my-2" for="first_name">First Name</label> 
+    <input class="form-control mb-2" id="first_name" type="text" required>
+
+    <label class="form-label my-2" for="last_name">Last Name</label> 
+    <input class="form-control mb-2" id="last_name" type="text" required>`
+
 }
 
 export {showRegister};  

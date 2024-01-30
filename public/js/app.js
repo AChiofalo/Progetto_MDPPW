@@ -28,7 +28,7 @@ class App {
     constructor(main_element, navLinks_element){
         this.main_element = main_element;
         this.navLinks_element = navLinks_element;
-
+        this.logoutLink = document.querySelector("#logout_link")
     
 
 
@@ -63,11 +63,23 @@ class App {
         });
 
         page('/register', () => {   
-            this.renderAll("sign up", showRegister);
+            this.renderAll("sign up",()=>showRegister("customer"));
+
+            document.getElementById("register_form").addEventListener('submit',  this.registerCustomer);
         });
 
-        page('/', () => {
+        page('/join', () => {
+            this.renderAll("join us",()=>showRegister("vendor"));
+
+            document.getElementById("register_form").addEventListener('submit',  this.registerVendor);
+        });
+
+        page('/logout', this.logout)
+
+        page('/', () => {   
+            
             this.renderAll("none", showHomepage);
+
         });
 
         page('/homepage', '/');
@@ -78,7 +90,14 @@ class App {
         
     }
 
-
+    /**
+     * Perform the logout
+     */
+    logout = async () => {
+        await Api.doLogout();
+        localStorage.removeItem('isLoggedIn')
+        page.redirect('/homepage');
+    }
 
     login = async function(event){
         event.preventDefault();
@@ -87,10 +106,10 @@ class App {
 
         if(form.checkValidity()) {
             try {
-                const user = await Api.doLogin(form.email_input.value, form.password_input.value);
-                //Rimuove invisibilità logout
+                const user = await Api.doLogin(form.username.value, form.password.value);
+
                 alertMessage.innerHTML = showAlert('success',`Welcome ${user}!`)
-                localStorage.setItem('isLoggedIn', 'true'); //!!!
+                localStorage.setItem('isLoggedIn', true); //!!!
                 setTimeout(()=>{
                     alertMessage.innerHTML = "";
                 }, 5000);   
@@ -105,8 +124,68 @@ class App {
             }
 
         }
-
     }
+
+    registerCustomer = async function(event){
+        event.preventDefault();
+        const form = event.target;
+        const alertMessage = document.getElementById('alert-message');
+
+        if(form.checkValidity()) {
+            try {
+                const res = await Api.doSignUpCustomer(form.username.value, 
+                    form.password.value, 
+                    form.first_name.value,
+                    form.last_name.value
+                    );
+                //Rimuove invisibilità logout
+                alertMessage.innerHTML = showAlert('success', res)
+                setTimeout(()=>{
+                    alertMessage.innerHTML = "";
+                }, 5000);   
+                 
+                page.redirect('/');
+            }
+            catch(err){
+                const errorMsg = err;
+                alertMessage.innerHTML = showAlert('danger', errorMsg);
+
+                setTimeout(()=> alertMessage.innerHTML = '', 5000);
+            }
+
+        }
+    }
+    
+    registerVendor = async function(event){
+        event.preventDefault();
+        const form = event.target;
+        const alertMessage = document.getElementById('alert-message');
+
+        if(form.checkValidity()) {
+            try {
+                const res = await Api.doSignUpVendor(form.username.value, 
+                    form.password.value, 
+                    form.name.value,
+                    form.description.value
+                    );
+                //Rimuove invisibilità logout
+                alertMessage.innerHTML = showAlert('success', res)
+                setTimeout(()=>{
+                    alertMessage.innerHTML = "";
+                }, 5000);   
+                 
+                page.redirect('/');
+            }
+            catch(err){
+                const errorMsg = err;
+                alertMessage.innerHTML = showAlert('danger', errorMsg);
+
+                setTimeout(()=> alertMessage.innerHTML = '', 5000);
+            }
+
+        }
+    }
+
 
     /**
      * @param {String} activePage - Nome della pagina attiva al momento

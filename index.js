@@ -20,10 +20,9 @@ const sessionsRouter = require('./routes-API/sessions');
 
 const userDao = require('./models/user-dao');
 
-
+app.use(express.json()); //Ordine middleware importante
 app.use(logger('short'));
 
-app.use(express.json());
 
 app.use(session({
   store: new FileStore(), // by default, Passport uses a MemoryStore to keep track of the sessions - if you want to use this, launch nodemon with the option: --ignore sessions/
@@ -83,7 +82,7 @@ app.use('/api/customers', customersRouter);
 //-------
 //ROUTES BASE, page.js agisce prima
 app.get('*', (req,res)=> {     
-    res.sendFile(path.resolve(__dirname,'public', 'index.html'));
+  res.sendFile(path.resolve(__dirname,'public/index.html'));
 });
 
  
