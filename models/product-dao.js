@@ -15,7 +15,6 @@ exports.createProduct = function (product) {
       [product.name, 
        product.vendor_id, 
        product.description, 
-       product.img, 
        product.quantity_available,
        product.price,
       ], 
@@ -55,7 +54,6 @@ exports.searchProductsByName = function (name) {
             "name": row.name,
             "vendor_id": row.vendor_id,
             "description": row.description,
-            "img": row.img,
             "quantity_available": row.quantity_available,
             "price": row.price
           }));
@@ -88,7 +86,6 @@ exports.getProduct = function (name) {
           "name": row.name,
           "vendor_id": row.vendor_id,
           "description": row.description,
-          "img": row.img,
           "quantity_available": row.quantity_available,
           "price": row.price
         }

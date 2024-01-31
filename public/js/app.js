@@ -2,8 +2,8 @@
 
 import {showNavLinks} from "./templates/navlinks-template.js";
 
-import {showProduct} from "./templates/product-template.js";
-import {showProducts} from "./templates/products-template.js";
+//import {showProduct} from "./templates/product-template.js";
+import {showProducts,showProduct} from "./templates/productList-template.js";
 
 import {showVendors} from "./templates/vendors-template.js";
 
@@ -13,6 +13,8 @@ import {showLogin} from "./templates/login-template.js"
 import {showRegister} from "./templates/register-template.js";
 import {showAlert} from "./templates/alert-template.js"
 import {showHomepage} from "./templates/homepage-template.js"
+
+import {showProductPage} from "./templates/productPage-template.js"
 
 import Api from "./api.js";
 import page from "//unpkg.com/page/page.mjs";
@@ -54,11 +56,12 @@ class App {
         //CATALOGHI
         page('/products', () => {
             this.renderAll("products", showProducts);
+            this.loadProductsList()
         });
-        page('/products/:id', async (ctx) => {
+        page('/products/:name', async (req) => {
             try {
-                const product = await Api.getProduct(ctx.params.id);
-                this.renderAll("none", () => showProduct(product));
+                const product = await Api.getProduct(req.params.name);
+                this.renderAll("none", () => showProductPage(product));
             } catch(err) {
                 page.redirect("/homepage");
             }
@@ -67,6 +70,8 @@ class App {
         page('/vendors', () => {    
             this.renderAll("vendors", showVendors);
         });
+
+
 
         //RELATIVI A RUOLO
         page('/cart', () => {
@@ -92,9 +97,7 @@ class App {
      */
     logout = async () => {
         await Api.doLogout();
-        localStorage.removeItem('username');
-        localStorage.removeItem('id');
-        localStorage.removeItem('role');
+        clearSessionCache();
         page.redirect('/homepage');
     }
 
@@ -107,10 +110,8 @@ class App {
             try {
                 const user = await Api.doLogin(form.username.value, form.password.value);
 
-                alertMessage.innerHTML = showAlert('success',`Welcome ${user.username}!`)
-                localStorage.setItem('username', user.username); //!!!
-                localStorage.setItem('id', user.id);
-                localStorage.setItem('role', user.role.toLowerCase());
+                alertMessage.innerHTML = showAlert('success',`Welcome ${user.username}!`);
+                setSessionCache(user);
                 setTimeout(()=>{
                     alertMessage.innerHTML = "";
                 }, 5000);   
@@ -187,6 +188,25 @@ class App {
         }
     }
 
+    loadProductsList = async function(){
+
+            try {
+                const res = await Api.getProducts(null); //Query da aggiungere
+                 
+                const list = document.querySelector('#product-list');
+                res.forEach((product)=>{
+                    list.insertAdjacentHTML('afterbegin',showProduct(product))
+                }); 
+
+
+
+            }
+            catch(err){
+                const errorMsg = err;
+            }
+
+        }
+
 
     /**
      * @param {String} activePage - Nome della pagina attiva al momento
@@ -216,6 +236,19 @@ class App {
         this.main_element.insertAdjacentHTML("beforeend", creator());
     }
 }
+
+function setSessionCache(user){
+    localStorage.setItem('username', user.username); //!!!
+    localStorage.setItem('id', user.id);
+    localStorage.setItem('role', user.role.toLowerCase());
+}
+
+function clearSessionCache(){
+    localStorage.removeItem('username'); //!!!
+    localStorage.removeItem('id');
+    localStorage.removeItem('role');
+}
+
 
 export default App;
 

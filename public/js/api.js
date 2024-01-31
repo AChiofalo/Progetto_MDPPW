@@ -10,22 +10,24 @@ import Vendor from "./vendor.js";
 class Api {
 
 
-    static getProduct = async (id) => {
-        let res = await fetch(`/api/products/${id}`);
-        const productJson = await res.json();
+    static getProduct = async (name) => {
+        let res = await fetch(`/api/products/${name}`);
+        const body = await res.json();
+        const productJson = body.product;
         if(res.ok)
-            return productJson;
+            return Product.from(productJson);
         else
             throw productJson;
     }
 
-    static getProducts = async () => {
+    static getProducts = async (search) => {
         let res = await fetch(`/api/products`);
-        const productsJson = await res.json();
+        const body = await res.json();
+        const productsJson = body.products;
         if(res.ok)
             return productsJson.map((product) => Product.from(product));
         else
-            throw productsJson;
+            throw body;
     }
 
     static getVendor = async (id) => {
@@ -93,10 +95,13 @@ class Api {
 
     }
 
+    //SESSIONI
 
-
-
-
+    /**
+     * @param {String} username 
+     * @param {String} password 
+     * @returns risposta server - oggetto user(id,username,role)
+     */
     static doLogin = async function(username, password){
         let response = await fetch("/api/sessions", {
             method: 'POST',
@@ -106,7 +111,7 @@ class Api {
             body: JSON.stringify({username, password})
         });
         if(response.ok) {
-            const res = await response.json()
+            const res = await response.json();
             return res;
         }
         else
@@ -120,12 +125,15 @@ class Api {
 
     }
     /**
-     * Perform the logout
+     * @returns risposta server - oggetto user(id,username,role)
      */
     static doLogout = async () => {
         await fetch('/api/sessions/current', { method: 'DELETE' });
     }
 
+    
 }
+
+
 
 export default Api;

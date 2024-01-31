@@ -3,7 +3,7 @@
 function showCart(){
     
     let res = "";
-    if(sessionStorage.getItem("hasCart"))
+    if(localStorage.getItem("hasCart"))
         res = ``
     else
         res = `<h2>Nessun Oggetto</h2>`

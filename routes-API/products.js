@@ -36,7 +36,6 @@ router.post('/', authSupp.isVendor, normalizer.normalizeCreateProduct, (req, res
     "name": req.body.name,
     "vendor_id": req.user.id,
     "description": req.body.description,
-    "img": `./assets/products-img/${req.body.name}`,
     "quantity_available": req.body.quantity_available,
     "price": req.body.price
   }

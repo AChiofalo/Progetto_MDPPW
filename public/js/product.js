@@ -3,16 +3,12 @@
 class Product {
 
 
-    constructor(id, vendorId, name, description, keywords, origin, color, img, quantityAvailable, price) {
+    constructor(id, name, vendor_id, description, quantity_available, price) {
         this.id = id;
-        this.vendorId = vendorId;
         this.name = name;
+        this.vendor_id = vendor_id;
         this.description = description;
-        this.keywords = keywords;
-        this.origin = origin;
-        this.color = color;
-        this.img = img
-        this.quantityAvailable = quantityAvailable;
+        this.quantity_available = quantity_available;
         this.price = price;
     }
 
@@ -23,14 +19,10 @@ class Product {
     static from(json){
         return new Product(
             json.id,
-            json.vendorId,
             json.name,
+            json.vendor_id,
             json.description, 
-            json.keywords,
-            json.origin, 
-            json.color,
-            json.img,
-            json.quantityAvailable,
+            json.quantity_available,
             json.price
         ); 
     }
