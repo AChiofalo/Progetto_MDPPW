@@ -17,6 +17,7 @@ const productsRouter = require('./routes-API/products');
 const vendorsRouter = require('./routes-API/vendors');
 const customersRouter = require('./routes-API/customers');
 const sessionsRouter = require('./routes-API/sessions');
+const checkoutRouter = require('./routes-API/checkout');
 
 const userDao = require('./models/user-dao');
 
@@ -79,6 +80,7 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/vendors', vendorsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/customers', customersRouter);
+app.use('/api/checkout', checkoutRouter);
 //-------
 //ROUTES BASE, page.js agisce prima
 app.get('*', (req,res)=> {     

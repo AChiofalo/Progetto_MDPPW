@@ -39,6 +39,8 @@ class Normalizer{
 
             this.validator.validateQuantity(req.body.price);
             this.validator.validateQuantity(req.body.quantity_available);
+            req.body.quantity_available = this.sanitizer.sanitizeQuantity(req.body.quantity_available);
+            req.body.price = this.sanitizer.sanitizeQuantity(req.body.price);
 
             return next();
             
@@ -51,6 +53,8 @@ class Normalizer{
         try {
             this.checker.checkUpdateQuantity(req.body);
             this.validator.validateQuantity(req.body.change);
+           
+            req.body.change = this.sanitizer.sanitizeQuantity(req.body.change);
 
             return next();
             
@@ -63,6 +67,8 @@ class Normalizer{
         try {
             this.checker.checkUpdateQuantity(req.body);
             this.validator.validateQuantity(req.body.change);
+            req.body.change = this.sanitizer.sanitizeQuantity(req.body.change);
+
 
             return next();
             

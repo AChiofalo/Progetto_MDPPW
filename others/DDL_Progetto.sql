@@ -30,19 +30,8 @@ CREATE TABLE product (
     "name" TEXT NOT NULL UNIQUE,
     "vendor_id" INTEGER NOT NULL, 
     "description" TEXT NOT NULL,
-    "img" TEXT NOT NULL,
     "quantity_available" INTEGER NOT NULL, 
     "price" INTEGER NOT NULL,
     PRIMARY KEY ("id"),
     FOREIGN KEY ("vendor_id") REFERENCES vendor
-);
-
-CREATE TABLE "transaction" (
-    "id" INTEGER NOT NULL UNIQUE,
-    "product_id" INTEGER NOT NULL,
-    "customer_id" INTEGER NOT NULL,
-    "quantity" INTEGER NOT NULL,
-    PRIMARY KEY ("id"),
-    FOREIGN KEY ("product_id") REFERENCES product,
-    FOREIGN KEY ("customer_id") REFERENCES customer
 );

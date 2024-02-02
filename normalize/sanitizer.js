@@ -48,6 +48,16 @@ class Sanitizer{
         return role.toUpperCase();;
     }
 
+    /**
+     * Restituisce intero di quantity string
+     * @param {String} quantity 
+     * @returns quantity intero
+     */
+    sanitizeQuantity = (quantity) => {
+            return Number.parseInt(quantity);
+    }
+
+
 
 }
 

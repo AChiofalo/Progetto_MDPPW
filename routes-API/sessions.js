@@ -36,31 +36,4 @@ router.delete('/current', function (req, res) {
   res.end();
 });
 
-//// POST /users
-//// Sign up
-//router.post('/users', normalizer.normalizeCreateUser, async (req, res) => {
-//  // create a user object from the signup form
-//  // additional fields may be useful (name, role, etc.)
-//
-//
-//  try {
-//    const user = {
-//      username: req.body.username,
-//      password: req.body.password,
-//      role: req.body.role
-//    };
-//    const result = await userDao.createUser(user);
-//    console.log(result.code);
-//    res.status(result.code).header('Location', `/users/${result.id}`).end()
-//  } catch (err) {
-//    res.status(err.code).json(err);
-//  }
-//
-
-//});
-
-
-
-
-
 module.exports = router;

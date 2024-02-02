@@ -28,8 +28,7 @@ function showNavLinks(active, role){
  */
 function showCatalogLinks(active){
 
-    return `<a class="nav-link clickableNavLink ${active==='products' ? 'active' : ''}" ${active==='products' ? 'aria-current="page"' : ''} href="/products">Prodotti</a> 
-            <a class="nav-link clickableNavLink ${active==='vendors' ? 'active' : ''}" ${active==='vendors' ? 'aria-current="page"' : ''} href="/vendors">Venditori</a> `
+    return `<a class="nav-link clickableNavLink ${active==='products' ? 'active' : ''}" ${active==='products' ? 'aria-current="page"' : ''} href="/products">Prodotti</a> `
 }
 
 function showSessionLinks(active,role){
@@ -38,6 +37,7 @@ function showSessionLinks(active,role){
     if(role)
         return `${showUserLinks(active,role)}
                 <a class="nav-link" href="/logout" id="logout_link">Logout</a> 
+                <a class="nav-link clickableNavLink ${active==='balance' ? 'active' : ''}" ${active==='balance' ? 'aria-current="page"' : ''}" href="/balance" id="balance_link">Saldo</a> 
                 ` 
     
 
@@ -52,9 +52,13 @@ function showSessionLinks(active,role){
 function showUserLinks(active,role){
     //Caso Vendor
     if(role==='vendor')
-        return `<a class="nav-link clickableNavLink ${active==='my products' ? 'active' : ''}" ${active==='my products' ? 'aria-current="page"' : ''} href="/myproducts">
-                    I miei prodotti
+        return `<a class="nav-link clickableNavLink ${active==='aggiungi prodotto' ? 'active' : ''}" ${active==='aggiungi prodotto' ? 'aria-current="page"' : ''} href="/addproduct">
+                    aggiungi prodotto
+                </a> 
+                <a class="nav-link clickableNavLink ${active==='refill' ? 'active' : ''}" ${active==='refill' ? 'aria-current="page"' : ''} href="/refillproduct">
+                    refill prodotto
                 </a> `
+                
     
     //Caso Customer
     return showCartLink(active)

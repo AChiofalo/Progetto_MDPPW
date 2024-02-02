@@ -14,8 +14,8 @@ const normalizer = new Normalizer();  //Normalizzatore
 /**
  * Restituisce la risorsa vendor tramite req.params.name
  */
-router.get('/:name', (req, res) => {
-  dao.getVendor(req.params.name)
+router.get('/:id', (req, res) => {
+  dao.getVendorById(req.params.id)
     .then((result) => res.status(result.code).json(result).end())
     .catch((err) => res.status(err.code).json(err));
 });
@@ -59,21 +59,8 @@ router.post('/', normalizer.normalizeCreateVendor, async (req, res) => {
 
 });
 
-/**
- * Cancella la risorsa vendor se presente
 
-router.delete('/:id', async (req,res) => {
 
-  try{
-    const vendorRes = await dao.deleteVendor(req.params.id);
-    const userRes = await userDao.deleteUser(req.params.id);
-    res.status(userRes.code).json(userRes).end()
-  } catch(err){
-    res.status(err.code).json(err);
-  }
-  
-});
- */
 
 /**
  * Modifica il valore di wallet legato ad req.user.id sommandovi change
@@ -86,7 +73,7 @@ router.patch('/wallet', authSupp.isVendor, normalizer.normalizeUpdateWallet, asy
     if (newWallet < 0) {
       const err = new Error();
       err.msg = "No credit";
-      err.code = "400";
+      err.code = 400;
       throw err;
     } 
 

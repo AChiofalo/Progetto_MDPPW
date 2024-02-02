@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * Utilità per costruire product
+ */
 class Product {
 
 

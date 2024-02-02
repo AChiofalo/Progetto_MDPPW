@@ -160,3 +160,17 @@ exports.updateWallet = function (name, change) {
     });
   });
 };
+
+exports.updateWalletById = function (id, change) {
+  return new Promise((resolve, reject) => {
+    const sql = "UPDATE vendor SET wallet = ? WHERE id LIKE ?"
+    db.run(sql, [change, id], function (err) {
+      if (err) {
+        err["code"] = 500;
+        reject(err);
+      }
+      else
+        resolve({ code: 200, msg: `${id} wallet updated successfully` });
+    });
+  });
+};

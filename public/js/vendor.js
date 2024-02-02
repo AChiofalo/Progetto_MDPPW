@@ -1,22 +1,21 @@
 "use strict";
 
+/**
+ * Utilità per costruire un eventuale vendor
+ */
 class Vendor{
 
-    constructor(id, name, location, description, img){
-        this.id = code;
+    constructor(id, name, description){
+        this.id = id;
         this.name = name;
-        this.location = location;
         this.description = description;
-        this.img = img;
     }
 
     static from(json){
         return new Product(
             json.id,
             json.name,
-            json.location,
             json.description, 
-            json.img
         ); 
     }
 }

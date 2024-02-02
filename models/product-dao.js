@@ -10,7 +10,7 @@ const db = require('../db.js');
  */
 exports.createProduct = function (product) {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO product(name, vendor_id, description, img, quantity_available, price) VALUES (?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO product(name, vendor_id, description, quantity_available, price) VALUES (?, ?, ?, ?, ?)';
     db.run(sql, 
       [product.name, 
        product.vendor_id, 
@@ -98,6 +98,38 @@ exports.getProduct = function (name) {
 /**
  * 
  * @param {String} name 
+ * @returns oggetto product o errore
+ */
+exports.getProductById = function (id) {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM product WHERE id LIKE ?;"
+    db.get(sql, [id], function (err, row) {
+      if (err) {
+        err["code"] = 500;
+        reject(err);
+      }
+      if (!row) {
+        reject({ code: 404, msg: `product ${id} Not Found` });
+      }
+      else {
+        const product =
+        {
+          "id": row.id,
+          "name": row.name,
+          "vendor_id": row.vendor_id,
+          "description": row.description,
+          "quantity_available": row.quantity_available,
+          "price": row.price
+        }
+        resolve({ code: 200, msg: "ok", product: product });
+      }
+    });
+  });
+};
+
+/**
+ * 
+ * @param {String} name 
  * @param {Number} id_vendor 
  * @returns GONE o error
  */
@@ -145,6 +177,22 @@ exports.updateQuantity = function (name, quantity, vendor_id) {
         reject({ code: 404, msg: `product ${name} Not Found` })
       else
         resolve({ code: 200, msg: `${name} quantity updated successfully` });
+    });
+  });
+};
+
+exports.updateQuantityById = function (id, quantity) {
+  return new Promise((resolve, reject) => {
+    const sql = "UPDATE product SET quantity_available = ? WHERE id LIKE ? "
+    db.run(sql, [quantity, id], function (err) {
+      if (err) {
+        err["code"] = 500;
+        reject(err);
+      }
+      else if (!this. changes)
+        reject({ code: 404, msg: `product ${id} Not Found` })
+      else
+        resolve({ code: 200, msg: `${id} quantity updated successfully` });
     });
   });
 };

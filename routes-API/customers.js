@@ -37,8 +37,8 @@ router.post('/', normalizer.normalizeCreateCustomer, async (req, res) => {
   } catch (err) {
     res.status(err.code).json(err).end();
   }
-
 });
+
 
 router.patch('/wallet', authSupp.isCustomer, normalizer.normalizeUpdateWallet, async (req, res) => {
 
@@ -48,16 +48,25 @@ router.patch('/wallet', authSupp.isCustomer, normalizer.normalizeUpdateWallet, a
     if (newWallet < 0) {
       const err = new Error();
       err.msg = "No credit";
-      err.code = "400";
+      err.code = 400;
       throw err;
     }
 
-    const result = await dao.updateWalletById(resGet.vendor.id, newWallet);
+    const result = await dao.updateWalletById(resGet.customer.id, newWallet);
     res.status(result.code).json(result).end();
   }
   catch (err) {
     res.status(err.code).json(err).end();
   }
+});
+
+/**
+ * Restituisce la risorsa vendor tramite req.params.name
+ */
+router.get('/:id', (req, res) => {
+  dao.getCustomerById(req.params.id)
+    .then((result) => res.status(result.code).json(result).end())
+    .catch((err) => res.status(err.code).json(err));
 });
 
 module.exports = router;

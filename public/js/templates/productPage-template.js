@@ -14,8 +14,8 @@ function showProductPage(product){
                 <p class="product-description"> ${product.description}</p>
                 <div class="container-sm">
                     <div class="row row-cols-1 row-cols-lg-2 g-2 my-2">
-                        <h2 class="col-6 product-price">${product.price/100},${product.price%100}</h2>
-                        <input class="col-6 btn btn-primary" type="button" value="Aggiungi al carrello"> 
+                        <h2 class="col-6 product-price">${product.price/100},${product.price%100} €</h2>
+                        <input id="add_cart" class="col-6 btn btn-primary" type="button" value="Aggiungi al carrello"> 
                     </div>
                 </div>
 
